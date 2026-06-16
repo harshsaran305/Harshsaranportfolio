@@ -29,7 +29,7 @@ const enc = (p: string) => encodeURI(p)
 
 const NOISE_URI = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)'/%3E%3C/svg%3E")`
 
-const RESUME_URL = "/resume/Harsh-Saran-CV-2026.pdf"
+const RESUME_URL = "/resume/harsh-saran-cv-2026.pdf"
 
 const glass: CSSProperties = {
   background: "rgba(18,16,28,0.5)",
