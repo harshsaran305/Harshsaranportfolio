@@ -1,0 +1,3562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Kaushal Bazaar — India's Marketplace for Skilled Entrepreneurs</title>
+<meta name="description" content="An integrated marketplace ecosystem for skilled entrepreneurs, MSMEs, and India's growing livelihood economy. Trade B2B, B2C, D2C across multiple sectors." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Tiro+Devanagari+Hindi&display=swap" rel="stylesheet">
+
+<style>
+/* ===================================================================
+   DESIGN TOKENS
+   =================================================================== */
+:root{
+  /* Brand */
+  --primary: #2E002E;
+  --primary-light: #5E3F75;
+  --secondary: #8F73A6;
+  --accent: #C9B6D8;
+  --accent-soft: #EDE5F4;
+
+  /* Surfaces */
+  --white: #FFFFFF;
+  --bg: #F7F7F9;
+  --card: #FAFAFC;
+  --border: rgba(0,0,0,0.05);
+  --border-strong: rgba(0,0,0,0.08);
+
+  /* Ink */
+  --ink: #1A0A1F;
+  --ink-soft: #4A3A55;
+  --ink-mute: #8C7E97;
+
+  /* Brand secondary signals (kept from the original logo for visual hits only) */
+  --warm: #E87420;
+  --warm-soft: #FEF1E5;
+  --info: #2BB3D4;
+
+  /* Gradients */
+  --grad-hero: linear-gradient(135deg, #2E002E 0%, #5E3F75 100%);
+  --grad-hero-rich: linear-gradient(135deg, #2E002E 0%, #4A1F5C 50%, #8F73A6 100%);
+  --grad-glow: radial-gradient(circle at 30% 20%, rgba(143,115,166,0.35), transparent 60%);
+  --grad-card: linear-gradient(180deg, rgba(255,255,255,0.9) 0%, rgba(247,247,249,0.6) 100%);
+
+  /* Shadows — soft, premium */
+  --shadow-xs: 0 1px 2px rgba(46,0,46,0.04);
+  --shadow-sm: 0 4px 12px rgba(46,0,46,0.06);
+  --shadow-md: 0 12px 32px rgba(46,0,46,0.08);
+  --shadow-lg: 0 24px 60px rgba(46,0,46,0.12);
+  --shadow-glow: 0 20px 60px rgba(143,115,166,0.25);
+
+  /* Radius */
+  --r-sm: 12px;
+  --r-md: 20px;
+  --r-lg: 28px;
+  --r-xl: 36px;
+  --r-pill: 999px;
+
+  /* Layout */
+  --container: 1280px;
+  --gutter: 32px;
+}
+
+/* ===================================================================
+   RESET & BASE
+   =================================================================== */
+*,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
+html{ scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
+body{
+  font-family:'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size:16px;
+  line-height:1.65;
+  color:var(--ink);
+  background:var(--white);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  overflow-x:hidden;
+}
+img,svg{ display:block; max-width:100%; }
+a{ color:inherit; text-decoration:none; }
+button{ font:inherit; color:inherit; background:none; border:none; cursor:pointer; }
+input,textarea{ font:inherit; }
+ul,ol{ list-style:none; }
+::selection{ background:var(--primary); color:#fff; }
+
+.container{
+  width:100%;
+  max-width:var(--container);
+  margin-inline:auto;
+  padding-inline:var(--gutter);
+}
+
+/* Typography scale */
+h1,h2,h3,h4{ font-weight:700; line-height:1.15; letter-spacing:-0.02em; color:var(--ink); }
+.eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  font-size:13px;
+  font-weight:500;
+  letter-spacing:0.14em;
+  text-transform:uppercase;
+  color:var(--primary-light);
+  padding:8px 16px;
+  background:var(--accent-soft);
+  border-radius:var(--r-pill);
+  border:1px solid rgba(143,115,166,0.18);
+}
+.eyebrow::before{
+  content:''; width:6px; height:6px; border-radius:50%;
+  background:var(--primary-light); box-shadow: 0 0 0 4px rgba(143,115,166,0.18);
+}
+
+.section{ padding:90px 0; position:relative; }
+.section--tight{ padding:70px 0; }
+.section-head{ max-width:760px; margin:0 auto 48px; text-align:center; }
+.section-head h2{ font-size:clamp(34px, 4vw, 48px); font-weight:600; margin:24px 0 18px; }
+.section-head p{ font-size:18px; color:var(--ink-soft); line-height:1.7; }
+
+/* Buttons */
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  font-size:15px;
+  font-weight:500;
+  padding:16px 28px;
+  border-radius:var(--r-pill);
+  transition: all 350ms cubic-bezier(.2,.7,.2,1);
+  white-space:nowrap;
+  position:relative;
+  isolation:isolate;
+}
+.btn--primary{
+  background:var(--grad-hero);
+  color:#fff;
+  box-shadow: var(--shadow-md), inset 0 1px 0 rgba(255,255,255,0.12);
+}
+.btn--primary:hover{
+  transform:translateY(-2px);
+  box-shadow: var(--shadow-lg), inset 0 1px 0 rgba(255,255,255,0.18);
+}
+.btn--ghost{
+  background:rgba(255,255,255,0.08);
+  color:#fff;
+  border:1px solid rgba(255,255,255,0.22);
+  backdrop-filter: blur(10px);
+}
+.btn--ghost:hover{ background:rgba(255,255,255,0.16); transform:translateY(-2px); }
+.btn--light{
+  background:#fff;
+  color:var(--primary);
+  border:1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+.btn--light:hover{ transform:translateY(-2px); box-shadow:var(--shadow-md); }
+.btn--outline{
+  background:transparent;
+  color:var(--primary);
+  border:1.5px solid var(--primary);
+}
+.btn--outline:hover{ background:var(--primary); color:#fff; }
+.btn .arrow{ transition: transform 350ms cubic-bezier(.2,.7,.2,1); }
+.btn:hover .arrow{ transform:translateX(4px); }
+
+/* Reveal animation */
+.reveal{ opacity:0; transform:translateY(28px); transition: opacity 800ms cubic-bezier(.2,.7,.2,1), transform 800ms cubic-bezier(.2,.7,.2,1); }
+.reveal.in{ opacity:1; transform:translateY(0); }
+.reveal-stagger > *{ opacity:0; transform:translateY(28px); transition: opacity 700ms cubic-bezier(.2,.7,.2,1), transform 700ms cubic-bezier(.2,.7,.2,1); }
+.reveal-stagger.in > *{ opacity:1; transform:translateY(0); }
+.reveal-stagger.in > *:nth-child(1){ transition-delay: 60ms; }
+.reveal-stagger.in > *:nth-child(2){ transition-delay: 140ms; }
+.reveal-stagger.in > *:nth-child(3){ transition-delay: 220ms; }
+.reveal-stagger.in > *:nth-child(4){ transition-delay: 300ms; }
+.reveal-stagger.in > *:nth-child(5){ transition-delay: 380ms; }
+.reveal-stagger.in > *:nth-child(6){ transition-delay: 460ms; }
+.reveal-stagger.in > *:nth-child(7){ transition-delay: 540ms; }
+.reveal-stagger.in > *:nth-child(8){ transition-delay: 620ms; }
+.reveal-stagger.in > *:nth-child(9){ transition-delay: 700ms; }
+
+/* ===================================================================
+   NAVBAR
+   =================================================================== */
+.nav{
+  position:fixed;
+  top:0; left:0; right:0;
+  z-index:100;
+  padding:18px 0;
+  transition: all 400ms cubic-bezier(.2,.7,.2,1);
+  background:rgba(46,0,46,0.04);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border-bottom:1px solid rgba(255,255,255,0.06);
+}
+.nav.scrolled{
+  background:rgba(255,255,255,0.92);
+  backdrop-filter: blur(24px) saturate(180%);
+  border-bottom:1px solid var(--border);
+  padding:12px 0;
+  box-shadow: 0 4px 24px rgba(46,0,46,0.06);
+}
+.nav-inner{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:32px;
+}
+.nav-logo{
+  display:flex; align-items:center; gap:10px;
+  height:44px;
+}
+.nav-logo img{ height:100%; width:auto; }
+.nav-logo .logo-light{ display:block; }
+.nav-logo .logo-dark{ display:none; }
+.nav.scrolled .nav-logo .logo-light{ display:none; }
+.nav.scrolled .nav-logo .logo-dark{ display:block; }
+
+.nav-links{
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+.nav-links a{
+  font-size:14.5px;
+  font-weight:500;
+  padding:10px 18px;
+  border-radius:var(--r-pill);
+  color:rgba(255,255,255,0.88);
+  transition: all 300ms ease;
+  position:relative;
+}
+.nav-links a:hover{ background:rgba(255,255,255,0.1); color:#fff; }
+.nav.scrolled .nav-links a{ color:var(--ink-soft); }
+.nav.scrolled .nav-links a:hover{ background:var(--accent-soft); color:var(--primary); }
+
+.nav-actions{
+  display:flex; align-items:center; gap:12px;
+}
+.nav-search{
+  width:38px; height:38px;
+  display:grid; place-items:center;
+  border-radius:50%;
+  color:rgba(255,255,255,0.88);
+  border:1px solid rgba(255,255,255,0.16);
+  transition: all 300ms ease;
+}
+.nav-search:hover{ background:rgba(255,255,255,0.1); }
+.nav.scrolled .nav-search{ color:var(--ink-soft); border-color:var(--border-strong); }
+.nav.scrolled .nav-search:hover{ background:var(--accent-soft); color:var(--primary); }
+
+.nav-login{
+  font-size:14.5px; font-weight:500;
+  color:rgba(255,255,255,0.88);
+  padding:10px 18px;
+  border-radius:var(--r-pill);
+  transition: all 300ms ease;
+}
+.nav-login:hover{ color:#fff; }
+.nav.scrolled .nav-login{ color:var(--ink-soft); }
+.nav.scrolled .nav-login:hover{ color:var(--primary); }
+
+.nav-register{
+  font-size:14.5px; font-weight:500;
+  color:#fff;
+  padding:10px 22px;
+  border-radius:var(--r-pill);
+  background:rgba(255,255,255,0.14);
+  border:1px solid rgba(255,255,255,0.22);
+  transition: all 300ms ease;
+  backdrop-filter: blur(10px);
+}
+.nav-register:hover{ background:rgba(255,255,255,0.22); transform:translateY(-1px); }
+.nav.scrolled .nav-register{
+  background:var(--grad-hero);
+  color:#fff;
+  border-color:transparent;
+  box-shadow: var(--shadow-sm);
+}
+.nav.scrolled .nav-register:hover{ box-shadow:var(--shadow-md); }
+
+.nav-toggle{
+  display:none;
+  width:42px; height:42px;
+  border-radius:50%;
+  align-items:center; justify-content:center;
+  border:1px solid rgba(255,255,255,0.2);
+  color:#fff;
+}
+.nav.scrolled .nav-toggle{ color:var(--ink); border-color:var(--border-strong); }
+
+/* ===================================================================
+   HERO
+   =================================================================== */
+.hero{
+  position:relative;
+  min-height:auto;
+  padding:100px 0 60px;
+  background: var(--grad-hero-rich);
+  color:#fff;
+  overflow:hidden;
+  isolation:isolate;
+  opacity:0;
+  animation: hero-fade-in 1100ms cubic-bezier(.2,.7,.2,1) 100ms forwards;
+}
+@keyframes hero-fade-in{
+  from{ opacity:0; }
+  to{ opacity:1; }
+}
+
+/* Video background layer — sits at the very bottom of hero stack */
+.hero-video{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+  z-index:0;
+  pointer-events:none;
+}
+
+/* Dark + brand-tinted overlay above video, for text readability */
+.hero-video-overlay{
+  position:absolute;
+  inset:0;
+  z-index:1;
+  pointer-events:none;
+  background:
+    linear-gradient(135deg, rgba(46,0,46,0.62) 0%, rgba(30,0,40,0.4) 50%, rgba(94,63,117,0.55) 100%),
+    rgba(0,0,0,0.45);
+}
+
+/* Atmospheric layers — re-layered ABOVE video/overlay for glow accents */
+.hero::before{
+  content:'';
+  position:absolute; inset:0;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 30%, rgba(201,182,216,0.18), transparent 60%),
+    radial-gradient(ellipse 70% 50% at 80% 70%, rgba(232,116,32,0.12), transparent 60%),
+    radial-gradient(ellipse 100% 60% at 50% 100%, rgba(143,115,166,0.25), transparent 70%);
+  z-index:2;
+  pointer-events:none;
+}
+.hero::after{
+  content:'';
+  position:absolute; inset:0;
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(255,255,255,0.06) 1px, transparent 0);
+  background-size: 32px 32px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, #000 30%, transparent 80%);
+  z-index:2;
+  pointer-events:none;
+}
+
+/* Content container must sit above all background layers */
+.hero > .container,
+.hero > .scroll-hint{
+  position:relative;
+  z-index:3;
+}
+
+.hero-inner{
+  display:grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap:56px;
+  align-items:center;
+  min-height: auto;
+}
+
+.hero-content .eyebrow{
+  background:rgba(255,255,255,0.08);
+  border-color:rgba(255,255,255,0.18);
+  color:#fff;
+  backdrop-filter: blur(10px);
+}
+.hero-content .eyebrow::before{ background:#C9B6D8; box-shadow: 0 0 0 4px rgba(201,182,216,0.22); }
+
+.hero h1{
+  font-family:'Poppins', sans-serif;
+  font-size: clamp(40px, 4.6vw, 60px);
+  font-weight:700;
+  line-height:1.08;
+  letter-spacing:-0.03em;
+  color:#fff;
+  margin:18px 0 20px;
+  max-width: 600px;
+  text-shadow: 0 2px 16px rgba(0,0,0,0.35);
+}
+.hero h1 .accent{
+  background: linear-gradient(120deg, #E8A838 0%, #C9B6D8 60%, #fff 100%);
+  -webkit-background-clip:text; background-clip:text;
+  -webkit-text-fill-color: transparent;
+  font-style: italic;
+  font-weight: 600;
+  position:relative;
+  display:inline-block;
+  padding-left: 0.12em;
+  padding-right: 0.06em;
+  margin-left: -0.06em;
+}
+.hero h1 .accent::after{
+  content:''; position:absolute; left:0; right:0; bottom:0.04em; height:6px;
+  background: linear-gradient(90deg, transparent, rgba(232,168,56,0.5), transparent);
+  border-radius: 4px;
+  filter: blur(2px);
+}
+.hero p.lede{
+  font-size: clamp(16px, 1.2vw, 18px);
+  font-weight:400;
+  color:rgba(255,255,255,0.88);
+  max-width:560px;
+  line-height:1.6;
+  margin-bottom:28px;
+  text-shadow: 0 1px 8px rgba(0,0,0,0.3);
+}
+
+.hero-cta{ display:flex; gap:14px; flex-wrap:wrap; margin-bottom:36px; }
+.hero-cta .btn--primary{
+  background: linear-gradient(135deg, #E87420 0%, #E8A838 100%);
+  box-shadow: 0 12px 36px rgba(232,116,32,0.35), inset 0 1px 0 rgba(255,255,255,0.2);
+}
+.hero-cta .btn--primary:hover{
+  box-shadow: 0 20px 50px rgba(232,116,32,0.45), inset 0 1px 0 rgba(255,255,255,0.25);
+}
+
+.hero-meta{
+  display:flex; gap:32px; flex-wrap:wrap;
+  padding-top:24px;
+  border-top:1px solid rgba(255,255,255,0.12);
+}
+.hero-meta-item{
+  display:flex; flex-direction:column;
+}
+.hero-meta-item .num{
+  font-size:26px;
+  font-weight:700;
+  color:#fff;
+  letter-spacing:-0.02em;
+  line-height:1;
+  margin-bottom:4px;
+}
+.hero-meta-item .num .plus{ color:#E8A838; }
+.hero-meta-item .label{
+  font-size:13px;
+  color:rgba(255,255,255,0.6);
+  letter-spacing:0.02em;
+}
+
+/* Hero visual — composition of floating cards */
+.hero-visual{
+  position:relative;
+  height:580px;
+  perspective: 1200px;
+}
+.hv-bg{
+  position:absolute;
+  inset:0;
+  border-radius: var(--r-xl);
+  background:
+    linear-gradient(135deg, rgba(232,168,56,0.18), rgba(201,182,216,0.08)),
+    radial-gradient(circle at 70% 30%, rgba(232,116,32,0.25), transparent 50%);
+  backdrop-filter: blur(20px);
+  border:1px solid rgba(255,255,255,0.1);
+  overflow:hidden;
+}
+.hv-bg::before{
+  content:''; position:absolute; inset:0;
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(255,255,255,0.12) 1px, transparent 0);
+  background-size: 24px 24px;
+  opacity:0.4;
+}
+.hv-ship{
+  position:absolute;
+  bottom:8%; left:50%;
+  transform: translateX(-50%);
+  width: 65%;
+  height: 50%;
+  background: radial-gradient(ellipse at 50% 60%, rgba(232,116,32,0.6) 0%, rgba(232,168,56,0.4) 30%, transparent 70%);
+  filter: blur(40px);
+  animation: glow 4s ease-in-out infinite alternate;
+}
+@keyframes glow{
+  0%{ opacity:0.5; transform: translateX(-50%) scale(1); }
+  100%{ opacity:0.85; transform: translateX(-50%) scale(1.08); }
+}
+
+/* Floating cards */
+.float-card{
+  position:absolute;
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border:1px solid rgba(255,255,255,0.16);
+  border-radius: var(--r-md);
+  padding:18px 20px;
+  color:#fff;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+  animation: float 6s ease-in-out infinite;
+}
+.float-card.fc1{
+  top: 2%; left: -6%;
+  width: 230px;
+  animation-delay: 0s;
+  z-index: 5;
+}
+.float-card.fc2{
+  top: 42%; right: -6%;
+  width: 220px;
+  animation-delay: 1.5s;
+  z-index: 5;
+}
+.float-card.fc3{
+  bottom: 2%; left: -2%;
+  width: 250px;
+  animation-delay: 3s;
+  z-index: 5;
+}
+@keyframes float{
+  0%, 100%{ transform: translateY(0) rotate(0deg); }
+  50%{ transform: translateY(-14px) rotate(0.5deg); }
+}
+.fc-row{ display:flex; align-items:center; gap:12px; }
+.fc-icon{
+  width:40px; height:40px;
+  border-radius:12px;
+  background: linear-gradient(135deg, rgba(232,168,56,0.4), rgba(232,116,32,0.4));
+  display:grid; place-items:center;
+  flex-shrink:0;
+  font-size:18px;
+}
+.fc-body{ flex:1; min-width:0; }
+.fc-label{ font-size:11px; color:rgba(255,255,255,0.55); text-transform:uppercase; letter-spacing:0.1em; }
+.fc-title{ font-size:14px; font-weight:600; margin-top:2px; }
+.fc-meta{ font-size:12px; color:rgba(255,255,255,0.6); margin-top:8px; display:flex; justify-content:space-between; }
+.fc-pill{
+  font-size:10px; font-weight:600;
+  padding: 3px 8px; border-radius: 999px;
+  background: rgba(67,193,123,0.2); color:#7ee0a8;
+}
+.fc-bar{
+  height:4px; border-radius:999px; background:rgba(255,255,255,0.12);
+  margin-top:10px; overflow:hidden;
+}
+.fc-bar::after{
+  content:''; display:block; height:100%; width:72%;
+  background: linear-gradient(90deg, #E8A838, #E87420);
+  border-radius:999px;
+}
+
+/* ===================================================================
+   ECOSYSTEM WHEEL — Premium animated 3-layer visualization
+   =================================================================== */
+.hv-wheel{
+  position:absolute;
+  top:50%; left:50%;
+  transform: translate(-50%, -50%);
+  width: 500px; height:500px;
+  pointer-events:none;
+}
+/* Ambient glow behind wheel */
+.hv-wheel::before{
+  content:'';
+  position:absolute;
+  inset: -40px;
+  border-radius:50%;
+  background: radial-gradient(circle,
+    rgba(232,168,56,0.18) 0%,
+    rgba(143,115,166,0.12) 35%,
+    transparent 70%);
+  filter: blur(20px);
+  z-index:0;
+}
+/* SVG wheel itself */
+.hv-wheel-svg{
+  position:absolute;
+  inset:0;
+  width:100%; height:100%;
+  z-index:1;
+  overflow:visible;
+}
+.hv-wheel-svg .outer-ring,
+.hv-wheel-svg .inner-ring{
+  transform-origin: center;
+}
+.hv-wheel-svg .outer-ring{
+  animation: spin-cw 60s linear infinite;
+}
+.hv-wheel-svg .inner-ring{
+  animation: spin-ccw 50s linear infinite;
+}
+@keyframes spin-cw{
+  from{ transform: rotate(0deg); }
+  to{ transform: rotate(360deg); }
+}
+@keyframes spin-ccw{
+  from{ transform: rotate(0deg); }
+  to{ transform: rotate(-360deg); }
+}
+
+/* Outer segment hover state */
+.hv-segment{
+  transition: all 350ms cubic-bezier(.2,.7,.2,1);
+  cursor:pointer;
+  pointer-events: auto;
+}
+.hv-segment:hover{
+  filter: brightness(1.4) drop-shadow(0 0 12px rgba(232,168,56,0.6));
+}
+
+/* Center ship piece */
+.hv-wheel-inner{
+  position:absolute;
+  top:50%; left:50%;
+  transform:translate(-50%,-50%);
+  width:195px; height:195px;
+  border-radius:50%;
+  background: linear-gradient(135deg, #fff, #F4ECFB);
+  overflow:hidden;
+  box-shadow:
+    0 20px 60px rgba(0,0,0,0.35),
+    0 0 0 6px rgba(255,255,255,0.08),
+    0 0 0 7px rgba(232,168,56,0.5),
+    0 0 40px rgba(232,168,56,0.3);
+  z-index:3;
+  animation: center-pulse 4s ease-in-out infinite;
+}
+@keyframes center-pulse{
+  0%, 100%{ box-shadow: 0 20px 60px rgba(0,0,0,0.35), 0 0 0 6px rgba(255,255,255,0.08), 0 0 0 7px rgba(232,168,56,0.5), 0 0 40px rgba(232,168,56,0.3); }
+  50%{ box-shadow: 0 20px 60px rgba(0,0,0,0.35), 0 0 0 6px rgba(255,255,255,0.12), 0 0 0 7px rgba(232,168,56,0.7), 0 0 60px rgba(232,168,56,0.5); }
+}
+.hv-wheel-inner img{
+  width:100%; height:100%;
+  object-fit:cover;
+  display:block;
+}
+.hv-wheel-inner::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  border-radius:50%;
+  background: linear-gradient(180deg, transparent 60%, rgba(46,0,46,0.5) 100%);
+  pointer-events:none;
+}
+
+/* Center subtext below ship */
+.hv-center-sub{
+  position:absolute;
+  left:50%; top: calc(50% + 120px);
+  transform:translateX(-50%);
+  font-family:'Poppins', sans-serif;
+  font-size: 10px;
+  font-weight:600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.65);
+  white-space: nowrap;
+  z-index:3;
+  padding: 5px 12px;
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 999px;
+}
+
+/* Tooltip on segment hover */
+.hv-tooltip{
+  position:absolute;
+  bottom: calc(100% + 16px);
+  left: 50%;
+  transform: translateX(-50%) translateY(8px);
+  background: rgba(20,8,28,0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(232,168,56,0.3);
+  border-radius: 12px;
+  padding: 12px 18px;
+  font-size: 12.5px;
+  color: #fff;
+  width: max-content;
+  max-width: 240px;
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 300ms cubic-bezier(.2,.7,.2,1);
+  z-index: 10;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+}
+.hv-tooltip strong{
+  display:block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #E8A838;
+  margin-bottom: 3px;
+}
+.hv-tooltip.visible{
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+.hv-tooltip::after{
+  content:'';
+  position:absolute;
+  top:100%; left:50%;
+  transform:translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: rgba(20,8,28,0.95);
+}
+
+/* Scroll hint */
+.scroll-hint{
+  position:absolute;
+  bottom:32px; left:50%;
+  transform:translateX(-50%);
+  font-size:12px;
+  color:rgba(255,255,255,0.6);
+  letter-spacing:0.18em;
+  text-transform:uppercase;
+  display:flex; flex-direction:column; align-items:center; gap:12px;
+}
+.scroll-hint .line{
+  width:1px; height:36px;
+  background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.6), transparent);
+  animation: scroll-pulse 2s ease-in-out infinite;
+}
+@keyframes scroll-pulse{
+  0%, 100%{ opacity:0.3; transform: scaleY(0.7); }
+  50%{ opacity:1; transform: scaleY(1); }
+}
+
+/* ===================================================================
+   ANNOUNCEMENT BAR
+   =================================================================== */
+.announce{
+  background: var(--primary);
+  color:#fff;
+  padding:10px 0;
+  font-size:13px;
+  text-align:center;
+  letter-spacing:0.02em;
+}
+.announce strong{ color:#E8A838; font-weight:600; }
+.announce a{ color:#C9B6D8; text-decoration:underline; text-underline-offset:3px; margin-left:8px; }
+
+/* ===================================================================
+   SECTION: SECTORS
+   =================================================================== */
+.sectors{ background: var(--white); position:relative; }
+.sectors-grid{
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap:24px;
+}
+.sector-card{
+  position:relative;
+  padding: 36px 32px;
+  background: var(--card);
+  border-radius: var(--r-lg);
+  border:1.5px solid rgba(46,0,46,0.09);
+  transition: all 500ms cubic-bezier(.2,.7,.2,1);
+  overflow:hidden;
+  isolation:isolate;
+  cursor:pointer;
+  min-height: 220px;
+  display:flex; flex-direction:column;
+}
+.sector-card::before{
+  content:'';
+  position:absolute; inset:0;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+  opacity:0; transition: opacity 500ms ease;
+  z-index:-1;
+}
+.sector-card::after{
+  content:'';
+  position:absolute; top:0; right:0;
+  width:160px; height:160px;
+  background: radial-gradient(circle, var(--accent-soft), transparent 70%);
+  border-radius:50%;
+  transform: translate(40%, -40%);
+  opacity:0.7;
+  transition: all 500ms ease;
+}
+.sector-card:hover{
+  transform:translateY(-6px);
+  border-color: transparent;
+  box-shadow: var(--shadow-glow);
+}
+.sector-card:hover::before{ opacity:1; }
+.sector-card:hover::after{
+  background: radial-gradient(circle, rgba(232,168,56,0.3), transparent 70%);
+  transform: translate(30%, -30%) scale(1.4);
+}
+.sector-card:hover .sec-icon{ background:rgba(255,255,255,0.16); border-color:rgba(255,255,255,0.22); color:#fff; transform: rotate(-8deg) scale(1.08); }
+.sector-card:hover .sec-title,
+.sector-card:hover .sec-desc,
+.sector-card:hover .sec-stat{ color:#fff; }
+.sector-card:hover .sec-arrow{ background:#E8A838; color:var(--primary); transform: translate(4px,-4px); }
+
+.sec-icon{
+  width:60px; height:60px;
+  border-radius: 16px;
+  background: var(--white);
+  border:1px solid var(--border-strong);
+  display:grid; place-items:center;
+  color: var(--primary);
+  margin-bottom:24px;
+  transition: all 400ms cubic-bezier(.2,.7,.2,1);
+  position:relative;
+  z-index:1;
+}
+.sec-icon svg{ width:28px; height:28px; }
+.sec-title{
+  font-size:22px;
+  font-weight:600;
+  letter-spacing:-0.015em;
+  color:var(--ink);
+  margin-bottom:8px;
+  transition: color 400ms ease;
+  position:relative; z-index:1;
+}
+.sec-desc{
+  font-size:14.5px;
+  color:var(--ink-mute);
+  line-height:1.55;
+  flex:1;
+  transition: color 400ms ease;
+  position:relative; z-index:1;
+}
+.sec-footer{
+  display:flex; justify-content:space-between; align-items:center;
+  margin-top:24px;
+  position:relative; z-index:1;
+}
+.sec-stat{
+  font-size:13px;
+  color: var(--primary-light);
+  font-weight:500;
+  transition: color 400ms ease;
+}
+.sec-arrow{
+  width:36px; height:36px;
+  border-radius:50%;
+  background: var(--accent-soft);
+  display:grid; place-items:center;
+  color: var(--primary);
+  transition: all 400ms cubic-bezier(.2,.7,.2,1);
+}
+
+/* ===================================================================
+   SECTION: WHAT IS KAUSHAL BAZAAR
+   =================================================================== */
+.about{
+  background: linear-gradient(180deg, var(--white) 0%, var(--bg) 100%);
+  position:relative;
+}
+.about-grid{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:80px;
+  align-items:center;
+}
+.about-visual{
+  position:relative;
+  aspect-ratio: 1 / 1.05;
+  border-radius: var(--r-xl);
+  background: var(--grad-hero);
+  padding: 56px;
+  overflow:hidden;
+  isolation:isolate;
+  box-shadow: var(--shadow-lg);
+}
+.about-visual::before{
+  content:'';
+  position:absolute; inset:0;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(232,168,56,0.25), transparent 50%),
+    radial-gradient(circle at 70% 80%, rgba(43,179,212,0.2), transparent 50%);
+  z-index:-1;
+}
+.about-visual::after{
+  content:'';
+  position:absolute; inset:0;
+  background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.1) 1px, transparent 0);
+  background-size: 28px 28px;
+  mask-image: radial-gradient(ellipse at 50% 50%, #000 30%, transparent 75%);
+  z-index:-1;
+}
+/* ===================================================================
+   ECOSYSTEM EXPLAINER (About visual) — interactive node diagram
+   =================================================================== */
+.eco{
+  position:absolute;
+  inset:0;
+  display:grid;
+  place-items:center;
+}
+.eco-svg{
+  position:absolute;
+  inset:0;
+  width:100%; height:100%;
+  pointer-events:none;
+  overflow:visible;
+}
+.eco-line{
+  stroke: rgba(255,255,255,0.15);
+  stroke-width: 1.2;
+  stroke-dasharray: 3 4;
+  transition: stroke 350ms ease, stroke-width 350ms ease, opacity 350ms ease;
+  animation: eco-dash 30s linear infinite;
+}
+@keyframes eco-dash{
+  to{ stroke-dashoffset: -120; }
+}
+.eco-line.active{
+  stroke: rgba(232,168,56,0.85);
+  stroke-width: 2;
+  stroke-dasharray: 0;
+  filter: drop-shadow(0 0 6px rgba(232,168,56,0.5));
+}
+.eco-orbit{
+  fill:none;
+  stroke: rgba(255,255,255,0.08);
+  stroke-width: 1;
+  stroke-dasharray: 2 6;
+}
+.eco-center{
+  position:relative;
+  width:140px; height:140px;
+  border-radius:50%;
+  background: linear-gradient(135deg, #fff, #F4ECFB);
+  display:grid; place-items:center;
+  padding: 18px;
+  box-shadow:
+    0 20px 50px rgba(0,0,0,0.3),
+    0 0 0 6px rgba(255,255,255,0.08),
+    0 0 0 7px rgba(232,168,56,0.45),
+    0 0 50px rgba(232,168,56,0.3);
+  z-index:3;
+  overflow:hidden;
+  animation: eco-center-pulse 4s ease-in-out infinite;
+}
+@keyframes eco-center-pulse{
+  0%, 100%{ box-shadow: 0 20px 50px rgba(0,0,0,0.3), 0 0 0 6px rgba(255,255,255,0.08), 0 0 0 7px rgba(232,168,56,0.45), 0 0 50px rgba(232,168,56,0.3); }
+  50%{ box-shadow: 0 20px 50px rgba(0,0,0,0.3), 0 0 0 6px rgba(255,255,255,0.12), 0 0 0 7px rgba(232,168,56,0.65), 0 0 70px rgba(232,168,56,0.5); }
+}
+.eco-center img{
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 2px 6px rgba(46,0,46,0.15));
+}
+.eco-center-sub{
+  position:absolute;
+  left:50%; top: calc(50% + 95px);
+  transform:translateX(-50%);
+  font-family:'Poppins', sans-serif;
+  font-size: 9px;
+  font-weight:600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.7);
+  white-space: nowrap;
+  z-index:3;
+  padding: 4px 11px;
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 999px;
+}
+
+.eco-nodes{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  z-index: 2;
+}
+.eco-node{
+  position:absolute;
+  top:50%; left:50%;
+  width: 76px;
+  transform: translate(-50%, -50%);
+  display:flex; flex-direction:column; align-items:center;
+  gap: 5px;
+  cursor:pointer;
+  pointer-events: auto;
+  transition: transform 400ms cubic-bezier(.2,.7,.2,1);
+}
+.eco-node-icon{
+  width:46px; height:46px;
+  border-radius:14px;
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255,255,255,0.22);
+  display:grid; place-items:center;
+  color: #fff;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  transition: all 400ms cubic-bezier(.2,.7,.2,1);
+  position:relative;
+}
+.eco-node-icon::before{
+  content:'';
+  position:absolute; inset:-3px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(232,168,56,0.6), rgba(43,179,212,0.4));
+  opacity:0;
+  z-index:-1;
+  transition: opacity 350ms ease;
+}
+.eco-node-icon svg{ width:20px; height:20px; }
+.eco-node-label{
+  font-family:'Poppins', sans-serif;
+  font-size: 10.5px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.85);
+  text-align:center;
+  line-height:1.2;
+  letter-spacing: 0.01em;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+  transition: color 300ms ease;
+}
+.eco-node:hover .eco-node-icon,
+.eco-node.active .eco-node-icon{
+  background: rgba(232,168,56,0.18);
+  border-color: rgba(232,168,56,0.6);
+  transform: scale(1.12);
+  box-shadow: 0 12px 28px rgba(232,168,56,0.3);
+}
+.eco-node:hover .eco-node-icon::before,
+.eco-node.active .eco-node-icon::before{ opacity: 0.5; }
+.eco-node:hover .eco-node-label,
+.eco-node.active .eco-node-label{ color: #fff; }
+
+/* Soft pulse on idle nodes */
+.eco-node-icon::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  border-radius:14px;
+  border: 1px solid rgba(255,255,255,0.3);
+  animation: eco-node-pulse 3.5s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes eco-node-pulse{
+  0%, 100%{ opacity:0; transform: scale(1); }
+  50%{ opacity: 0.5; transform: scale(1.15); }
+}
+.eco-node:nth-child(1) .eco-node-icon::after{ animation-delay: 0s; }
+.eco-node:nth-child(2) .eco-node-icon::after{ animation-delay: 0.4s; }
+.eco-node:nth-child(3) .eco-node-icon::after{ animation-delay: 0.8s; }
+.eco-node:nth-child(4) .eco-node-icon::after{ animation-delay: 1.2s; }
+.eco-node:nth-child(5) .eco-node-icon::after{ animation-delay: 1.6s; }
+.eco-node:nth-child(6) .eco-node-icon::after{ animation-delay: 2.0s; }
+.eco-node:nth-child(7) .eco-node-icon::after{ animation-delay: 2.4s; }
+.eco-node:nth-child(8) .eco-node-icon::after{ animation-delay: 2.8s; }
+.eco-node:nth-child(9) .eco-node-icon::after{ animation-delay: 3.2s; }
+.eco-node:nth-child(10) .eco-node-icon::after{ animation-delay: 3.6s; }
+
+/* Tooltip */
+.eco-tooltip{
+  position:absolute;
+  background: rgba(20,8,28,0.96);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(232,168,56,0.35);
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-size: 12.5px;
+  color: #fff;
+  width: max-content;
+  max-width: 220px;
+  text-align: left;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 300ms cubic-bezier(.2,.7,.2,1), transform 300ms cubic-bezier(.2,.7,.2,1);
+  z-index: 10;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.45);
+  line-height: 1.45;
+  transform: translate(-50%, -100%) translateY(8px);
+}
+.eco-tooltip strong{
+  display:block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #E8A838;
+  margin-bottom: 4px;
+}
+.eco-tooltip.visible{
+  opacity: 1;
+  transform: translate(-50%, -100%) translateY(0);
+}
+.eco-tooltip::after{
+  content:'';
+  position:absolute;
+  top:100%; left:50%;
+  transform:translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: rgba(20,8,28,0.96);
+}
+
+.about-content .eyebrow{ background:var(--accent-soft); }
+.about-content h2{
+  font-size: clamp(34px, 3.6vw, 46px);
+  font-weight:600;
+  letter-spacing:-0.025em;
+  line-height:1.1;
+  margin:20px 0 24px;
+}
+.about-content h2 em{
+  font-style:italic;
+  font-weight:600;
+  background: linear-gradient(120deg, var(--primary), var(--primary-light));
+  -webkit-background-clip:text; background-clip:text;
+  -webkit-text-fill-color: transparent;
+}
+.about-content p{
+  font-size:17px;
+  color:var(--ink-soft);
+  line-height:1.75;
+  margin-bottom:20px;
+}
+.about-pillars{
+  display:grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap:16px;
+  margin: 32px 0;
+}
+.about-pillar{
+  display:flex; gap:12px; align-items:flex-start;
+  padding:16px;
+  background:var(--white);
+  border:1px solid var(--border);
+  border-radius:var(--r-md);
+  transition: all 300ms ease;
+}
+.about-pillar:hover{ box-shadow:var(--shadow-sm); transform:translateY(-2px); }
+.ap-icon{
+  width:36px; height:36px;
+  flex-shrink:0;
+  border-radius:10px;
+  background: var(--accent-soft);
+  color: var(--primary);
+  display:grid; place-items:center;
+}
+.ap-icon svg{ width:18px; height:18px; }
+.ap-text strong{ display:block; font-size:14px; font-weight:600; color:var(--ink); margin-bottom:2px; }
+.ap-text span{ font-size:12.5px; color:var(--ink-mute); line-height:1.4; }
+
+/* ===================================================================
+   SECTION: BENEFITS
+   =================================================================== */
+.benefits{ background: var(--white); }
+.benefits-grid{
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap:24px;
+}
+.benefit{
+  position:relative;
+  padding: 40px 32px;
+  border-radius: var(--r-lg);
+  background: var(--white);
+  border:1.5px solid rgba(46,0,46,0.09);
+  transition: all 500ms cubic-bezier(.2,.7,.2,1);
+  isolation:isolate;
+  overflow:hidden;
+}
+.benefit::before{
+  content:'';
+  position:absolute; inset:0;
+  background: linear-gradient(180deg, var(--accent-soft) 0%, transparent 60%);
+  opacity:0; transition: opacity 400ms ease;
+  z-index:-1;
+}
+.benefit:hover{
+  transform:translateY(-4px);
+  border-color:transparent;
+  box-shadow: var(--shadow-md);
+}
+.benefit:hover::before{ opacity:1; }
+.benefit-num{
+  font-family: 'Poppins';
+  font-size:48px;
+  font-weight:700;
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  -webkit-background-clip:text; background-clip:text;
+  -webkit-text-fill-color:transparent;
+  line-height:1;
+  letter-spacing:-0.04em;
+}
+.benefit-title{
+  font-size:22px;
+  font-weight:600;
+  color:var(--ink);
+  margin: 16px 0 12px;
+  letter-spacing:-0.015em;
+}
+.benefit-desc{
+  font-size:15px;
+  color:var(--ink-soft);
+  line-height:1.65;
+  margin-bottom:24px;
+}
+.benefit-tags{ display:flex; flex-wrap:wrap; gap:8px; }
+.benefit-tag{
+  font-size:12px; font-weight:500;
+  padding: 5px 12px;
+  background: var(--accent-soft);
+  color: var(--primary);
+  border-radius: var(--r-pill);
+  border:1px solid rgba(143,115,166,0.16);
+}
+
+/* ===================================================================
+   SECTION: SHOWCASE (PRODUCTS + SERVICES TABS)
+   =================================================================== */
+.showcase{ background: var(--bg); }
+.showcase-tabs{
+  display:flex; justify-content:center;
+  gap:8px;
+  margin-bottom:56px;
+  padding:6px;
+  background: var(--white);
+  border-radius: var(--r-pill);
+  border:1px solid var(--border);
+  width:fit-content;
+  margin-inline:auto;
+  box-shadow: var(--shadow-sm);
+}
+.showcase-tab{
+  padding: 12px 28px;
+  border-radius: var(--r-pill);
+  font-size:14.5px;
+  font-weight:500;
+  color: var(--ink-soft);
+  transition: all 350ms ease;
+  white-space:nowrap;
+}
+.showcase-tab:hover{ color:var(--primary); }
+.showcase-tab.active{
+  background: var(--grad-hero);
+  color:#fff;
+  box-shadow: var(--shadow-sm);
+}
+.showcase-panels{ position:relative; min-height: 540px; }
+.showcase-panel{ display:none; }
+.showcase-panel.active{ display:block; animation: fadeIn 500ms ease; }
+@keyframes fadeIn{ from{opacity:0; transform:translateY(12px);} to{opacity:1; transform:translateY(0);} }
+
+.showcase-grid{
+  display:grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap:24px;
+}
+.show-card{
+  background: var(--white);
+  border-radius: var(--r-lg);
+  overflow:hidden;
+  border:1px solid var(--border);
+  transition: all 500ms cubic-bezier(.2,.7,.2,1);
+  cursor:pointer;
+}
+.show-card:hover{
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-md);
+  border-color: transparent;
+}
+.show-card-media{
+  aspect-ratio: 4 / 3;
+  overflow:hidden;
+  position:relative;
+}
+.show-card-media .img{
+  width:100%; height:100%;
+  background-size:cover; background-position:center;
+  transition: transform 700ms cubic-bezier(.2,.7,.2,1);
+}
+.show-card:hover .img{ transform: scale(1.07); }
+.show-card-badge{
+  position:absolute; top:14px; left:14px;
+  font-size:11px; font-weight:600;
+  padding: 5px 10px;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(10px);
+  color: var(--primary);
+  border-radius: var(--r-pill);
+  letter-spacing:0.04em;
+  text-transform:uppercase;
+}
+.show-card-body{ padding: 20px 22px 24px; }
+.show-card-cat{
+  font-size:11px; font-weight:500;
+  text-transform:uppercase;
+  letter-spacing:0.12em;
+  color: var(--primary-light);
+}
+.show-card-title{
+  font-size:17px; font-weight:600;
+  color:var(--ink);
+  margin: 8px 0 4px;
+  letter-spacing:-0.01em;
+  line-height:1.25;
+}
+.show-card-meta{
+  font-size:13px; color: var(--ink-mute);
+  display:flex; justify-content:space-between; align-items:center;
+  margin-top:12px;
+  padding-top:12px;
+  border-top:1px solid var(--border);
+}
+.show-card-meta .price{ font-weight:600; color:var(--ink); }
+.show-card-meta .by{ font-size:12px; }
+
+/* SVG placeholder backgrounds with brand palette */
+.img-1{ background: linear-gradient(135deg, #2E002E, #5E3F75), radial-gradient(circle at 30% 30%, #E8A838, transparent 50%); }
+.img-2{ background: linear-gradient(135deg, #E87420, #E8A838); }
+.img-3{ background: linear-gradient(135deg, #5E3F75, #8F73A6); }
+.img-4{ background: linear-gradient(135deg, #2BB3D4, #1A8AA8); }
+.img-5{ background: linear-gradient(135deg, #C9B6D8, #8F73A6); }
+.img-6{ background: linear-gradient(135deg, #3B7A3F, #5E8F5E); }
+.img-7{ background: linear-gradient(135deg, #7A1F2B, #C9B6D8); }
+.img-8{ background: linear-gradient(135deg, #1A0A1F, #5E3F75); }
+
+/* Make placeholder images more interesting with embedded SVG */
+.img-pattern{
+  position:absolute; inset:0;
+  background-image:
+    radial-gradient(circle at 50% 50%, rgba(255,255,255,0.18) 1px, transparent 0);
+  background-size: 16px 16px;
+  mix-blend-mode: overlay;
+}
+.img-icon-overlay{
+  position:absolute;
+  bottom:18px; left:18px;
+  color:#fff;
+  font-size:34px;
+  opacity:0.85;
+}
+
+/* ===================================================================
+   SECTION: STORIES (TESTIMONIAL CAROUSEL)
+   =================================================================== */
+.stories{
+  background:
+    linear-gradient(180deg, var(--bg) 0%, var(--white) 50%, var(--bg) 100%);
+  overflow:hidden;
+}
+.stories-track-wrap{
+  position:relative;
+  margin: 0 -32px;
+  padding: 12px 32px;
+}
+.stories-track{
+  display:flex; gap:24px;
+  transition: transform 700ms cubic-bezier(.2,.7,.2,1);
+}
+.story{
+  flex: 0 0 calc(33.333% - 16px);
+  background: var(--white);
+  border-radius: var(--r-lg);
+  padding: 40px 36px;
+  border:1px solid var(--border);
+  position:relative;
+  transition: all 400ms ease;
+}
+.story:hover{ box-shadow: var(--shadow-md); transform: translateY(-4px); }
+.story-quote{
+  font-family: 'Poppins';
+  font-size:80px;
+  font-weight:700;
+  line-height:1;
+  color: var(--accent);
+  position:absolute; top:24px; right:32px;
+  opacity:0.6;
+}
+.story-text{
+  font-size: 16.5px;
+  color:var(--ink-soft);
+  line-height:1.7;
+  margin-bottom:28px;
+}
+.story-author{
+  display:flex; align-items:center; gap:14px;
+  padding-top:24px;
+  border-top:1px solid var(--border);
+}
+.story-avatar{
+  width:52px; height:52px;
+  border-radius:50%;
+  display:grid; place-items:center;
+  font-weight:600;
+  color:#fff;
+  font-size:18px;
+  letter-spacing:-0.01em;
+  flex-shrink:0;
+}
+.story-info strong{ display:block; font-size:15px; font-weight:600; color:var(--ink); }
+.story-info span{ font-size:13px; color: var(--ink-mute); }
+.story-info .meta{ display:inline-block; margin-top:4px; font-size:12px; font-weight:500; padding: 3px 10px; background:var(--accent-soft); color:var(--primary); border-radius:999px; }
+
+.stories-controls{
+  display:flex; justify-content:center; gap:12px;
+  margin-top:48px;
+}
+.story-arrow{
+  width:46px; height:46px;
+  border-radius:50%;
+  border:1px solid var(--border-strong);
+  background: var(--white);
+  display:grid; place-items:center;
+  color: var(--primary);
+  transition: all 300ms ease;
+}
+.story-arrow:hover{ background: var(--primary); color:#fff; border-color:var(--primary); transform:translateY(-2px); box-shadow: var(--shadow-sm); }
+.story-arrow:disabled{ opacity:0.4; cursor:not-allowed; }
+.story-dots{ display:flex; gap:8px; align-items:center; padding: 0 8px; }
+.story-dot{
+  width:8px; height:8px; border-radius:50%; background:var(--border-strong);
+  transition: all 300ms ease;
+}
+.story-dot.active{ background: var(--primary); width:28px; border-radius:999px; }
+
+/* ===================================================================
+   SECTION: IMPACT STATS
+   =================================================================== */
+.impact{
+  position:relative;
+  background: var(--grad-hero-rich);
+  color:#fff;
+  overflow:hidden;
+  isolation:isolate;
+}
+.impact::before{
+  content:''; position:absolute; inset:0;
+  background:
+    radial-gradient(ellipse 60% 50% at 20% 30%, rgba(232,168,56,0.16), transparent 60%),
+    radial-gradient(ellipse 60% 50% at 80% 70%, rgba(201,182,216,0.14), transparent 60%);
+  z-index:-1;
+}
+.impact::after{
+  content:''; position:absolute; inset:0;
+  background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.05) 1px, transparent 0);
+  background-size: 32px 32px;
+  z-index:-1;
+}
+.impact .section-head h2{ color:#fff; }
+.impact .section-head p{ color:rgba(255,255,255,0.7); }
+.impact .eyebrow{ background:rgba(255,255,255,0.08); border-color:rgba(255,255,255,0.2); color:#fff; }
+.impact .eyebrow::before{ background:#C9B6D8; box-shadow: 0 0 0 4px rgba(201,182,216,0.22); }
+
+.stats-grid{
+  display:grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+}
+.stat{
+  position:relative;
+  padding: 40px 28px;
+  border-radius: var(--r-lg);
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(20px);
+  border:1px solid rgba(255,255,255,0.1);
+  text-align:left;
+  transition: all 500ms cubic-bezier(.2,.7,.2,1);
+}
+.stat:hover{
+  background: rgba(255,255,255,0.08);
+  transform: translateY(-4px);
+  border-color: rgba(232,168,56,0.4);
+}
+.stat-icon{
+  width:48px; height:48px;
+  border-radius:14px;
+  background: linear-gradient(135deg, rgba(232,168,56,0.25), rgba(232,116,32,0.25));
+  border:1px solid rgba(232,168,56,0.3);
+  display:grid; place-items:center;
+  color:#E8A838;
+  margin-bottom:20px;
+}
+.stat-num{
+  font-size: clamp(40px, 4vw, 56px);
+  font-weight:700;
+  letter-spacing:-0.03em;
+  line-height:1;
+  background: linear-gradient(135deg, #fff 0%, #C9B6D8 100%);
+  -webkit-background-clip:text; background-clip:text;
+  -webkit-text-fill-color: transparent;
+  display:inline-flex; align-items:baseline; gap:2px;
+}
+.stat-num .suffix{
+  font-size:0.5em;
+  color:#E8A838;
+  -webkit-text-fill-color: #E8A838;
+}
+.stat-label{
+  font-size:14px;
+  color: rgba(255,255,255,0.72);
+  margin-top:14px;
+  letter-spacing:0.01em;
+}
+.stat-sub{
+  font-size:12px;
+  color: rgba(255,255,255,0.5);
+  margin-top:6px;
+}
+
+/* ===================================================================
+   SECTION: PARTNERS MARQUEE
+   =================================================================== */
+.partners{ background:var(--white); padding: 70px 0; }
+.partners-head{ text-align:center; max-width:640px; margin: 0 auto 56px; }
+.partners-head h3{
+  font-size: 14px; font-weight:500;
+  color: var(--ink-mute);
+  letter-spacing:0.18em;
+  text-transform:uppercase;
+}
+.marquee{
+  position:relative;
+  overflow:hidden;
+  mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+}
+.marquee-track{
+  display:flex; gap:64px;
+  width:max-content;
+  animation: marquee 38s linear infinite;
+}
+@keyframes marquee{
+  from{ transform: translateX(0); }
+  to{ transform: translateX(-50%); }
+}
+.marquee:hover .marquee-track{ animation-play-state: paused; }
+.partner-logo{
+  flex-shrink:0;
+  height: 60px;
+  display:flex; align-items:center; gap:14px;
+  padding: 0 32px;
+  border-radius: var(--r-md);
+  background: var(--card);
+  border:1px solid var(--border);
+  color: var(--primary);
+  font-weight:600;
+  font-size:15px;
+  letter-spacing:-0.01em;
+  transition: all 300ms ease;
+}
+.partner-logo:hover{
+  border-color:var(--accent);
+  background:var(--accent-soft);
+}
+.partner-logo .pl-mark{
+  width:32px; height:32px;
+  border-radius:8px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  display:grid; place-items:center;
+  color:#fff;
+  font-size:13px;
+  font-weight:700;
+}
+
+/* ===================================================================
+   SECTION: WHY KAUSHAL BAZAAR
+   =================================================================== */
+.why{ background: linear-gradient(180deg, var(--white) 0%, var(--bg) 100%); }
+.why-grid{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+.why-card{
+  padding: 44px 40px;
+  border-radius: var(--r-lg);
+  background: var(--white);
+  border:1px solid var(--border);
+  position:relative;
+  overflow:hidden;
+  isolation:isolate;
+  transition: all 500ms cubic-bezier(.2,.7,.2,1);
+}
+.why-card.featured{
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+  color:#fff;
+  border-color:transparent;
+  box-shadow: var(--shadow-glow);
+}
+.why-card.featured::before{
+  content:''; position:absolute; inset:0;
+  background:
+    radial-gradient(circle at 80% 20%, rgba(232,168,56,0.25), transparent 50%),
+    radial-gradient(circle at 20% 90%, rgba(43,179,212,0.18), transparent 50%);
+  z-index:-1;
+}
+.why-card:not(.featured):hover{
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--accent);
+}
+.why-tag{
+  display:inline-block;
+  font-size:11px; font-weight:600;
+  padding: 5px 12px;
+  border-radius: var(--r-pill);
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  margin-bottom:24px;
+}
+.why-card .why-tag{
+  background:var(--accent-soft); color:var(--primary);
+}
+.why-card.featured .why-tag{
+  background: rgba(232,168,56,0.18);
+  color: #E8A838;
+  border: 1px solid rgba(232,168,56,0.3);
+}
+.why-card h3{
+  font-size: 26px; font-weight:600;
+  letter-spacing:-0.02em;
+  line-height:1.2;
+  margin-bottom:14px;
+}
+.why-card.featured h3{ color:#fff; }
+.why-card h3 em{
+  font-style:italic; font-weight:600;
+  background: linear-gradient(120deg, #E8A838, #fff);
+  -webkit-background-clip:text; background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+.why-card p{
+  font-size:15px; line-height:1.7;
+  color:var(--ink-soft);
+  margin-bottom:24px;
+}
+.why-card.featured p{ color:rgba(255,255,255,0.78); }
+.why-list{ display:flex; flex-direction:column; gap:10px; }
+.why-list li{
+  display:flex; align-items:center; gap:10px;
+  font-size:14px;
+  color:var(--ink-soft);
+}
+.why-card.featured .why-list li{ color: rgba(255,255,255,0.85); }
+.why-check{
+  width:20px; height:20px;
+  border-radius:50%;
+  display:grid; place-items:center;
+  background: var(--accent-soft);
+  color: var(--primary);
+  flex-shrink:0;
+}
+.why-card.featured .why-check{
+  background: rgba(232,168,56,0.25);
+  color: #E8A838;
+}
+.why-check svg{ width:11px; height:11px; }
+
+/* ===================================================================
+   SECTION: BLOGS
+   =================================================================== */
+.blogs{ background: var(--bg); }
+.blog-grid{
+  display:grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  gap:24px;
+}
+.blog{
+  background: var(--white);
+  border-radius: var(--r-lg);
+  overflow:hidden;
+  border:1px solid var(--border);
+  transition: all 500ms cubic-bezier(.2,.7,.2,1);
+  display:flex; flex-direction:column;
+}
+.blog:hover{ transform: translateY(-6px); box-shadow: var(--shadow-md); border-color:transparent; }
+.blog-media{
+  aspect-ratio: 16/10;
+  position:relative;
+  overflow:hidden;
+}
+.blog.featured{ grid-row: span 2; }
+.blog.featured .blog-media{ aspect-ratio: 4/3.5; }
+.blog-media .img{
+  width:100%; height:100%;
+  background-size:cover; background-position:center;
+  transition: transform 700ms cubic-bezier(.2,.7,.2,1);
+}
+.blog:hover .blog-media .img{ transform:scale(1.05); }
+.blog-cat{
+  position:absolute; top:16px; left:16px;
+  font-size:11px; font-weight:600;
+  text-transform:uppercase;
+  letter-spacing:0.08em;
+  padding: 6px 12px;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(10px);
+  color:var(--primary);
+  border-radius: var(--r-pill);
+}
+.blog-body{
+  padding: 24px 28px 28px;
+  flex:1; display:flex; flex-direction:column;
+}
+.blog.featured .blog-body{ padding: 32px 36px 36px; }
+.blog-date{ font-size:12.5px; color:var(--ink-mute); letter-spacing:0.04em; margin-bottom:10px; }
+.blog-title{
+  font-size: 18px; font-weight:600;
+  color:var(--ink);
+  letter-spacing:-0.015em;
+  line-height:1.3;
+}
+.blog.featured .blog-title{ font-size:26px; line-height:1.2; }
+.blog-excerpt{
+  font-size: 14.5px; color:var(--ink-soft); line-height:1.6;
+  margin-top:10px;
+}
+.blog.featured .blog-excerpt{ font-size:15.5px; }
+.blog-foot{
+  display:flex; align-items:center; gap:8px;
+  font-size:13px; font-weight:500; color: var(--primary);
+  margin-top:auto; padding-top:20px;
+}
+.blog-foot svg{ transition: transform 300ms ease; }
+.blog:hover .blog-foot svg{ transform: translateX(4px); }
+
+/* ===================================================================
+   SECTION: CTA
+   =================================================================== */
+.cta-section{
+  padding: 50px 0 90px;
+  background: var(--bg);
+}
+.cta-wrap{
+  position:relative;
+  padding: 80px 64px;
+  border-radius: var(--r-xl);
+  background: var(--grad-hero-rich);
+  overflow:hidden;
+  isolation:isolate;
+  color:#fff;
+  text-align:center;
+  box-shadow: var(--shadow-glow);
+}
+.cta-wrap::before{
+  content:''; position:absolute; inset:0;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(232,168,56,0.3), transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(43,179,212,0.25), transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(232,116,32,0.15), transparent 60%);
+  z-index:-1;
+}
+.cta-wrap::after{
+  content:''; position:absolute; inset:0;
+  background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.08) 1px, transparent 0);
+  background-size: 28px 28px;
+  mask-image: radial-gradient(ellipse at center, #000, transparent 75%);
+  z-index:-1;
+}
+.cta-floating{
+  position:absolute;
+  width: 200px; height: 200px;
+  border-radius:50%;
+  background: linear-gradient(135deg, rgba(232,168,56,0.18), transparent);
+  border:1px solid rgba(255,255,255,0.08);
+  z-index:-1;
+}
+.cta-floating.f1{ top:-60px; left:-60px; animation: float 8s ease-in-out infinite; }
+.cta-floating.f2{ bottom:-80px; right:-40px; width:280px; height:280px; animation: float 10s ease-in-out infinite 2s; }
+
+.cta-eyebrow{
+  font-size:13px; font-weight:500;
+  letter-spacing: 0.18em; text-transform:uppercase;
+  color: #E8A838;
+  margin-bottom:24px;
+}
+.cta-wrap h2{
+  font-size: clamp(36px, 4.4vw, 60px);
+  font-weight:600;
+  color:#fff;
+  letter-spacing:-0.03em;
+  line-height:1.1;
+  max-width: 800px;
+  margin: 0 auto 24px;
+}
+.cta-wrap h2 em{
+  font-style:italic; font-weight:600;
+  background: linear-gradient(120deg, #E8A838, #fff);
+  -webkit-background-clip:text; background-clip:text;
+  -webkit-text-fill-color: transparent;
+}
+.cta-wrap p{
+  font-size: 18px;
+  color: rgba(255,255,255,0.78);
+  max-width:600px;
+  margin: 0 auto 40px;
+  line-height:1.65;
+}
+.cta-buttons{ display:inline-flex; gap:14px; flex-wrap:wrap; justify-content:center; }
+.cta-buttons .btn--primary{
+  background: linear-gradient(135deg, #E87420, #E8A838);
+  box-shadow: 0 12px 36px rgba(232,116,32,0.35);
+}
+.cta-buttons .btn--primary:hover{ box-shadow: 0 20px 50px rgba(232,116,32,0.45); }
+.cta-trust{
+  margin-top: 48px;
+  display:flex; justify-content:center; align-items:center; gap:32px;
+  font-size:13px;
+  color: rgba(255,255,255,0.6);
+  flex-wrap:wrap;
+}
+.cta-trust span{ display:flex; align-items:center; gap:8px; }
+.cta-trust svg{ color:#E8A838; }
+
+/* ===================================================================
+   FOOTER
+   =================================================================== */
+.footer{
+  background: #1A0A1F;
+  color: rgba(255,255,255,0.75);
+  padding: 70px 0 0;
+  position:relative;
+  overflow:hidden;
+}
+.footer::before{
+  content:''; position:absolute; top:0; left:0; right:0; height:1px;
+  background: linear-gradient(90deg, transparent, rgba(232,168,56,0.4), transparent);
+}
+.footer-top{
+  display:grid;
+  grid-template-columns: 1.6fr 1fr 1fr 1fr 1.2fr;
+  gap: 60px;
+  padding-bottom: 64px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.footer-brand .nav-logo{ height:48px; margin-bottom:20px; }
+.footer-brand p{
+  font-size:14.5px; line-height:1.7;
+  color: rgba(255,255,255,0.62);
+  margin-bottom: 24px;
+  max-width: 340px;
+}
+.footer-social{ display:flex; gap:10px; }
+.footer-social a{
+  width:40px; height:40px;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,0.15);
+  display:grid; place-items:center;
+  color: rgba(255,255,255,0.7);
+  transition: all 300ms ease;
+}
+.footer-social a:hover{
+  background: var(--primary-light);
+  border-color: transparent;
+  color:#fff;
+  transform: translateY(-2px);
+}
+
+.footer-col h4{
+  font-size: 13px;
+  font-weight:600;
+  color:#fff;
+  letter-spacing:0.14em;
+  text-transform:uppercase;
+  margin-bottom:24px;
+}
+.footer-col ul{ display:flex; flex-direction:column; gap:14px; }
+.footer-col a{
+  font-size:14px;
+  color: rgba(255,255,255,0.62);
+  transition: all 300ms ease;
+  display:inline-flex; align-items:center; gap:6px;
+}
+.footer-col a:hover{ color: #E8A838; padding-left: 4px; }
+
+.footer-contact-item{ display:flex; gap:12px; margin-bottom:18px; align-items:flex-start; }
+.footer-contact-item svg{ flex-shrink:0; color:#E8A838; margin-top:2px; }
+.footer-contact-item .lbl{ font-size:12px; color:rgba(255,255,255,0.5); text-transform:uppercase; letter-spacing:0.1em; }
+.footer-contact-item .val{ font-size:14px; color:rgba(255,255,255,0.82); margin-top:2px; }
+
+.footer-bottom{
+  padding: 28px 0;
+  display:flex; align-items:center; justify-content:space-between;
+  flex-wrap:wrap; gap: 16px;
+  font-size:13px; color: rgba(255,255,255,0.45);
+}
+.footer-bottom-links{ display:flex; gap:24px; }
+.footer-bottom-links a{ color: rgba(255,255,255,0.55); transition: color 300ms ease; }
+.footer-bottom-links a:hover{ color: #E8A838; }
+
+/* ===================================================================
+   RESPONSIVE
+   =================================================================== */
+@media (max-width: 1024px){
+  .nav-links{ display:none; }
+  .nav-toggle{ display:grid; }
+  .hero-inner{ grid-template-columns:1fr; gap:48px; }
+  .hero-visual{ height:520px; max-width:560px; margin-inline:auto; width:100%; }
+  .about-grid{ grid-template-columns:1fr; gap:56px; }
+  .about-visual{ aspect-ratio: 1 / 0.9; max-width: 520px; margin-inline:auto; width:100%; }
+  .sectors-grid, .benefits-grid{ grid-template-columns: repeat(2, 1fr); }
+  .showcase-grid{ grid-template-columns: repeat(2, 1fr); }
+  .story{ flex: 0 0 calc(50% - 12px); }
+  .stats-grid{ grid-template-columns: repeat(2, 1fr); }
+  .why-grid{ grid-template-columns:1fr; }
+  .blog-grid{ grid-template-columns: 1fr 1fr; }
+  .blog.featured{ grid-row: auto; grid-column: span 2; }
+  .footer-top{ grid-template-columns: 1fr 1fr; gap:48px; }
+  .footer-brand{ grid-column: span 2; }
+  .section{ padding: 70px 0; }
+}
+
+@media (max-width: 640px){
+  :root{ --gutter: 20px; }
+  .section{ padding: 56px 0; }
+  .section-head{ margin-bottom: 32px; }
+
+  .nav{ padding: 14px 0; }
+  .nav.scrolled{ padding: 10px 0; }
+  .nav-logo{ height: 36px; }
+  .nav-search, .nav-login{ display:none; }
+  .nav-register{ padding: 8px 16px; font-size: 13px; }
+
+  .hero{ padding: 90px 0 50px; min-height: auto; }
+  .hero h1{ font-size: 36px; }
+  .hero-meta{ gap: 24px; }
+  .hero-meta-item .num{ font-size: 22px; }
+  .hero-visual{ height: 420px; }
+  .hv-wheel{ width: 360px; height:360px; }
+  .hv-wheel-inner{ width:140px; height:140px; }
+  .hv-center-sub{ top: calc(50% + 88px); font-size:9px; padding: 4px 10px; }
+  .scroll-hint{ display:none; }
+
+  .sectors-grid, .benefits-grid, .showcase-grid{ grid-template-columns: 1fr; }
+  .sector-card, .benefit{ padding: 32px 28px; }
+  .story{ flex: 0 0 calc(100% - 0px); padding: 32px 28px; }
+  .stats-grid{ grid-template-columns: 1fr 1fr; gap: 16px; }
+  .stat{ padding: 28px 22px; }
+  .blog-grid{ grid-template-columns: 1fr; }
+  .blog.featured{ grid-column: auto; }
+
+  .showcase-tabs{ overflow-x:auto; padding:6px; max-width:100%; }
+  .showcase-tab{ padding: 10px 18px; font-size: 13px; }
+
+  .footer-top{ grid-template-columns:1fr; gap: 40px; }
+  .footer-brand{ grid-column: auto; }
+
+  .cta-wrap{ padding: 56px 28px; }
+  .cta-section{ padding: 60px 0 100px; }
+  .about-pillars{ grid-template-columns: 1fr; }
+  .orbit-ring.r3{ width:380px; height:380px; }
+  .orbit-ring.r2{ width:280px; height:280px; }
+  .orbit-ring.r1{ width:160px; height:160px; }
+  .orbit-center{ width:110px; height:110px; }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{
+    animation-duration:0.01ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:0.01ms !important;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ANNOUNCEMENT -->
+<div class="announce">
+  <strong>New:</strong> Skilled KYC registration is now open for the 2026 cohort. <a href="#">Register your enterprise →</a>
+</div>
+
+<!-- NAVBAR -->
+<nav class="nav" id="nav">
+  <div class="container nav-inner">
+    <a href="#" class="nav-logo" aria-label="Kaushal Bazaar">
+      <img src="logo.png" alt="Kaushal Bazaar" class="logo-light" />
+      <img src="logo.png" alt="Kaushal Bazaar" class="logo-dark" />
+    </a>
+    <div class="nav-links">
+      <a href="#">Home</a>
+      <a href="#marketplace">Marketplace</a>
+      <a href="#sectors">Sectors</a>
+      <a href="#services">Services</a>
+      <a href="#blogs">Blogs</a>
+      <a href="#about">About</a>
+    </div>
+    <div class="nav-actions">
+      <button class="nav-search" aria-label="Search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      </button>
+      <a href="#" class="nav-login">Login</a>
+      <a href="#" class="nav-register">Register</a>
+      <button class="nav-toggle" aria-label="Menu">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- =================================================================
+     1. HERO
+     ================================================================= -->
+<section class="hero">
+  <!-- Background video layer -->
+  <video class="hero-video" autoplay muted loop playsinline preload="auto" aria-hidden="true">
+    <source src="hero_section.mp4" type="video/mp4" />
+  </video>
+  <!-- Dark + brand overlay above video, below content -->
+  <div class="hero-video-overlay" aria-hidden="true"></div>
+
+  <div class="container hero-inner">
+    <div class="hero-content reveal in">
+      <span class="eyebrow">An ecosystem of Kaushal Ganga</span>
+      <h1>India's marketplace for <span class="accent">skilled entrepreneurs</span></h1>
+      <p class="lede">A trusted ecosystem connecting products, services, MSMEs and livelihood opportunities across multiple sectors — backed by India's growing skill economy.</p>
+      <div class="hero-cta">
+        <a href="#marketplace" class="btn btn--primary">
+          Explore Marketplace
+          <svg class="arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="#" class="btn btn--ghost">
+          Become a Seller
+          <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg>
+        </a>
+      </div>
+      <div class="hero-meta">
+        <div class="hero-meta-item">
+          <div class="num">12K<span class="plus">+</span></div>
+          <div class="label">Verified Entrepreneurs</div>
+        </div>
+        <div class="hero-meta-item">
+          <div class="num">40<span class="plus">+</span></div>
+          <div class="label">Sectors Covered</div>
+        </div>
+        <div class="hero-meta-item">
+          <div class="num">28</div>
+          <div class="label">States &amp; UTs</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-visual reveal in">
+      <div class="hv-bg"></div>
+      <div class="hv-ship"></div>
+
+      <!-- Ecosystem Wheel: outer segments + inner curved labels -->
+      <div class="hv-wheel">
+        <svg class="hv-wheel-svg" viewBox="0 0 460 460" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <!-- Gradients for segments -->
+            <linearGradient id="seg-gold" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#E8A838" stop-opacity="0.55"/>
+              <stop offset="100%" stop-color="#E87420" stop-opacity="0.35"/>
+            </linearGradient>
+            <linearGradient id="seg-purple" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#8F73A6" stop-opacity="0.5"/>
+              <stop offset="100%" stop-color="#5E3F75" stop-opacity="0.3"/>
+            </linearGradient>
+            <linearGradient id="seg-cyan" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#2BB3D4" stop-opacity="0.5"/>
+              <stop offset="100%" stop-color="#1A8AA8" stop-opacity="0.3"/>
+            </linearGradient>
+            <linearGradient id="ring-glow" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#E8A838" stop-opacity="0.4"/>
+              <stop offset="50%" stop-color="#C9B6D8" stop-opacity="0.2"/>
+              <stop offset="100%" stop-color="#2BB3D4" stop-opacity="0.4"/>
+            </linearGradient>
+
+            <!-- Arcs for curved labels (TRAIN top, MAKE right, CREATE bottom, INNOVATE left).
+                 Each arc reads left-to-right along the upper side of its position so text stays readable. -->
+            <!-- Inner label radius = 130 -->
+            <!-- TRAIN — top arc (curves slightly, peaks at top center) -->
+            <path id="arc-train" d="M 165 110 A 130 130 0 0 1 295 110" fill="none"/>
+            <!-- MAKE — right side, curves around right pole, but text reads top-down — we use horizontal layout slightly arched -->
+            <path id="arc-make" d="M 340 175 A 130 130 0 0 1 340 285" fill="none"/>
+            <!-- CREATE — bottom arc (text reads left-to-right along TOP side of bottom; we flip arc so text sits inside) -->
+            <path id="arc-create" d="M 295 350 A 130 130 0 0 1 165 350" fill="none"/>
+            <!-- INNOVATE — left side -->
+            <path id="arc-innovate" d="M 120 285 A 130 130 0 0 1 120 175" fill="none"/>
+          </defs>
+
+          <!-- OUTER RING: 9 segmented ecosystem categories -->
+          <g class="outer-ring">
+            <!-- Segments are drawn as donut arcs. Outer R=225, Inner R=180. 360/9 = 40deg each. -->
+            <!-- Using stroke-based circle with stroke-dasharray for clean segments -->
+            <circle cx="230" cy="230" r="202" fill="none" stroke="url(#ring-glow)" stroke-width="44" stroke-dasharray="138 3" stroke-dashoffset="0" opacity="0.5"/>
+
+            <!-- Ecosystem segment dots (interactive nodes at outer ring) -->
+            <g class="ecosystem-nodes">
+              <!-- 9 nodes placed at 0, 40, 80, 120, 160, 200, 240, 280, 320 degrees -->
+              <!-- Node at 0° (top) Skill Training -->
+              <g class="hv-segment" data-label="Skill Training" data-desc="Entrepreneur and vocational training programs" transform="translate(230,28)">
+                <circle r="14" fill="url(#seg-gold)" stroke="rgba(255,255,255,0.6)" stroke-width="1.5"/>
+                <circle r="5" fill="#fff"/>
+              </g>
+              <!-- 40° -->
+              <g class="hv-segment" data-label="Financial Inclusion" data-desc="Credit, schemes and financial enablement" transform="translate(360,80)">
+                <circle r="14" fill="url(#seg-gold)" stroke="rgba(255,255,255,0.6)" stroke-width="1.5"/>
+                <circle r="5" fill="#fff"/>
+              </g>
+              <!-- 80° -->
+              <g class="hv-segment" data-label="Entrepreneur Support" data-desc="Mentoring, networks and growth support" transform="translate(425,180)">
+                <circle r="14" fill="url(#seg-purple)" stroke="rgba(255,255,255,0.6)" stroke-width="1.5"/>
+                <circle r="5" fill="#fff"/>
+              </g>
+              <!-- 120° -->
+              <g class="hv-segment" data-label="Product &amp; Service" data-desc="Trade across products and skilled services" transform="translate(425,290)">
+                <circle r="14" fill="url(#seg-purple)" stroke="rgba(255,255,255,0.6)" stroke-width="1.5"/>
+                <circle r="5" fill="#fff"/>
+              </g>
+              <!-- 160° -->
+              <g class="hv-segment" data-label="Brand Building" data-desc="Storefront, identity and brand creation" transform="translate(360,395)">
+                <circle r="14" fill="url(#seg-cyan)" stroke="rgba(255,255,255,0.6)" stroke-width="1.5"/>
+                <circle r="5" fill="#fff"/>
+              </g>
+              <!-- 200° -->
+              <g class="hv-segment" data-label="Activity Rating" data-desc="Verified performance &amp; reputation" transform="translate(230,432)">
+                <circle r="14" fill="url(#seg-cyan)" stroke="rgba(255,255,255,0.6)" stroke-width="1.5"/>
+                <circle r="5" fill="#fff"/>
+              </g>
+              <!-- 240° -->
+              <g class="hv-segment" data-label="Innovation" data-desc="Ideas, R&amp;D and emerging models" transform="translate(100,395)">
+                <circle r="14" fill="url(#seg-cyan)" stroke="rgba(255,255,255,0.6)" stroke-width="1.5"/>
+                <circle r="5" fill="#fff"/>
+              </g>
+              <!-- 280° -->
+              <g class="hv-segment" data-label="Technology" data-desc="Digital tools, platforms and tech access" transform="translate(35,290)">
+                <circle r="14" fill="url(#seg-purple)" stroke="rgba(255,255,255,0.6)" stroke-width="1.5"/>
+                <circle r="5" fill="#fff"/>
+              </g>
+              <!-- 320° -->
+              <g class="hv-segment" data-label="New Markets" data-desc="Buyer networks, B2B, CSR &amp; exports" transform="translate(35,180)">
+                <circle r="14" fill="url(#seg-gold)" stroke="rgba(255,255,255,0.6)" stroke-width="1.5"/>
+                <circle r="5" fill="#fff"/>
+              </g>
+            </g>
+          </g>
+
+          <!-- INNER RING: curved labels TRAIN, MAKE, CREATE, INNOVATE -->
+          <g class="inner-ring">
+            <!-- Subtle backing ring -->
+            <circle cx="230" cy="230" r="130" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1" stroke-dasharray="4 4"/>
+
+            <text font-family="Poppins, sans-serif" font-size="14" font-weight="700" letter-spacing="6" fill="rgba(255,255,255,0.95)">
+              <textPath href="#arc-train" startOffset="50%" text-anchor="middle">TRAIN</textPath>
+            </text>
+            <text font-family="Poppins, sans-serif" font-size="14" font-weight="700" letter-spacing="6" fill="rgba(255,255,255,0.95)">
+              <textPath href="#arc-make" startOffset="50%" text-anchor="middle">MAKE</textPath>
+            </text>
+            <text font-family="Poppins, sans-serif" font-size="14" font-weight="700" letter-spacing="6" fill="rgba(255,255,255,0.95)">
+              <textPath href="#arc-create" startOffset="50%" text-anchor="middle">CREATE</textPath>
+            </text>
+            <text font-family="Poppins, sans-serif" font-size="14" font-weight="700" letter-spacing="6" fill="rgba(255,255,255,0.95)">
+              <textPath href="#arc-innovate" startOffset="50%" text-anchor="middle">INNOVATE</textPath>
+            </text>
+
+            <!-- Stage transition markers (between labels, NOT on labels) -->
+            <!-- Positioned at 45°, 135°, 225°, 315° — between each pair of labels -->
+            <g fill="rgba(232,168,56,0.6)">
+              <circle cx="322" cy="138" r="2"/>
+              <circle cx="322" cy="322" r="2"/>
+              <circle cx="138" cy="322" r="2"/>
+              <circle cx="138" cy="138" r="2"/>
+            </g>
+          </g>
+        </svg>
+
+        <!-- Tooltip overlay -->
+        <div class="hv-tooltip" id="hvTooltip">
+          <strong>Skill Training</strong>
+          <span>Entrepreneur and vocational training programs</span>
+        </div>
+      </div>
+
+      <!-- Center ship -->
+      <div class="hv-wheel-inner">
+        <img src="ship.png" alt="Kaushal Bazaar Ship" />
+      </div>
+      <div class="hv-center-sub">Skill Ecosystem</div>
+
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <span>Scroll to explore</span>
+    <span class="line"></span>
+  </div>
+</section>
+
+<!-- =================================================================
+     2. SECTORS
+     ================================================================= -->
+<section class="section sectors" id="sectors">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Explore by Sector</span>
+      <h2>Nine industries.<br/>One marketplace.</h2>
+      <p>Every sector on Kaushal Bazaar is a curated harbour — products, services, and skilled entrepreneurs ready for commerce. Tap a sector to discover what's inside.</p>
+    </div>
+
+    <div class="sectors-grid reveal-stagger">
+      <a href="#" class="sector-card">
+        <div class="sec-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 22s4-1 7-1 5 1 5 1 3-1 6-1 2 1 2 1M5 17V8c0-3 2-5 5-5s5 2 5 5v9M5 11h10M9 8v3M11 8v3"/></svg>
+        </div>
+        <div class="sec-title">Agriculture</div>
+        <p class="sec-desc">Farm produce, organic goods, agri-equipment, and processing.</p>
+        <div class="sec-footer">
+          <span class="sec-stat">2,140 listings</span>
+          <span class="sec-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></span>
+        </div>
+      </a>
+
+      <a href="#" class="sector-card">
+        <div class="sec-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/><path d="M5 17H3v-4l2-5h11l4 5v4h-2M9 17h6"/></svg>
+        </div>
+        <div class="sec-title">Automotive</div>
+        <p class="sec-desc">Vehicle parts, garage services, and skilled mechanics network.</p>
+        <div class="sec-footer">
+          <span class="sec-stat">980 listings</span>
+          <span class="sec-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></span>
+        </div>
+      </a>
+
+      <a href="#" class="sector-card">
+        <div class="sec-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/><path d="M3.5 12h6l.5-1 2 4 2-6 1.5 3h5"/></svg>
+        </div>
+        <div class="sec-title">Healthcare</div>
+        <p class="sec-desc">Wellness products, ayurveda, medical services and aides.</p>
+        <div class="sec-footer">
+          <span class="sec-stat">1,420 listings</span>
+          <span class="sec-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></span>
+        </div>
+      </a>
+
+      <a href="#" class="sector-card">
+        <div class="sec-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a4 4 0 0 1 4 4c0 1.5-.5 3-2 4l-2 2-2-2c-1.5-1-2-2.5-2-4a4 4 0 0 1 4-4Z"/><path d="M8 14c-2 1-3 3-3 5v3h14v-3c0-2-1-4-3-5"/><circle cx="12" cy="6" r="1.2"/></svg>
+        </div>
+        <div class="sec-title">Beauty &amp; Wellness</div>
+        <p class="sec-desc">Salons, herbal products, cosmetology, and trained professionals.</p>
+        <div class="sec-footer">
+          <span class="sec-stat">1,860 listings</span>
+          <span class="sec-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></span>
+        </div>
+      </a>
+
+      <a href="#" class="sector-card">
+        <div class="sec-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V8l7-5 7 5v13M9 21V13h6v8M9 9h2M13 9h2"/></svg>
+        </div>
+        <div class="sec-title">Construction</div>
+        <p class="sec-desc">Materials, masonry skills, contractors, and project supplies.</p>
+        <div class="sec-footer">
+          <span class="sec-stat">1,210 listings</span>
+          <span class="sec-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></span>
+        </div>
+      </a>
+
+      <a href="#" class="sector-card">
+        <div class="sec-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11h16l-1.5 9h-13L4 11Z"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/><path d="M9 15h6"/></svg>
+        </div>
+        <div class="sec-title">Food &amp; Processing</div>
+        <p class="sec-desc">Packaged foods, sweets, pickles, dairy, and FSSAI partners.</p>
+        <div class="sec-footer">
+          <span class="sec-stat">2,640 listings</span>
+          <span class="sec-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></span>
+        </div>
+      </a>
+
+      <a href="#" class="sector-card">
+        <div class="sec-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 22h8M12 18v4M7 9h.01M11 9h.01M15 9h6"/></svg>
+        </div>
+        <div class="sec-title">Electronics</div>
+        <p class="sec-desc">Repair services, refurbished products, components, and gadgets.</p>
+        <div class="sec-footer">
+          <span class="sec-stat">1,540 listings</span>
+          <span class="sec-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></span>
+        </div>
+      </a>
+
+      <a href="#" class="sector-card">
+        <div class="sec-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8h20l-2 12H4L2 8z"/><path d="M2 8 6 3h12l4 5"/><path d="M9 13h6"/></svg>
+        </div>
+        <div class="sec-title">Retail &amp; Handicrafts</div>
+        <p class="sec-desc">Artisan craft, home decor, textiles, and storefront commerce.</p>
+        <div class="sec-footer">
+          <span class="sec-stat">3,180 listings</span>
+          <span class="sec-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></span>
+        </div>
+      </a>
+
+      <a href="#" class="sector-card">
+        <div class="sec-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 17h4V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v11h2"/><path d="M14 9h5l3 5v3h-2"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg>
+        </div>
+        <div class="sec-title">Logistics</div>
+        <p class="sec-desc">Last-mile delivery, packaging, transport, and warehousing.</p>
+        <div class="sec-footer">
+          <span class="sec-stat">720 listings</span>
+          <span class="sec-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- =================================================================
+     3. ABOUT
+     ================================================================= -->
+<section class="section about" id="about">
+  <div class="container about-grid">
+    <div class="about-visual reveal">
+      <div class="eco">
+        <!-- SVG connection lines (drawn first, behind everything) -->
+        <svg class="eco-svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+          <!-- Concentric ring -->
+          <circle class="eco-orbit" cx="50" cy="50" r="38"/>
+          <!-- 10 lines from center to each node -->
+          <line class="eco-line" data-node="1"  x1="50" y1="50" x2="50"   y2="12"  />
+          <line class="eco-line" data-node="2"  x1="50" y1="50" x2="72.3" y2="19.3"/>
+          <line class="eco-line" data-node="3"  x1="50" y1="50" x2="86.1" y2="38.3"/>
+          <line class="eco-line" data-node="4"  x1="50" y1="50" x2="86.1" y2="61.7"/>
+          <line class="eco-line" data-node="5"  x1="50" y1="50" x2="72.3" y2="80.7"/>
+          <line class="eco-line" data-node="6"  x1="50" y1="50" x2="50"   y2="88"  />
+          <line class="eco-line" data-node="7"  x1="50" y1="50" x2="27.7" y2="80.7"/>
+          <line class="eco-line" data-node="8"  x1="50" y1="50" x2="13.9" y2="61.7"/>
+          <line class="eco-line" data-node="9"  x1="50" y1="50" x2="13.9" y2="38.3"/>
+          <line class="eco-line" data-node="10" x1="50" y1="50" x2="27.7" y2="19.3"/>
+        </svg>
+
+        <!-- Nodes layer (above lines) -->
+        <div class="eco-nodes">
+          <div class="eco-node" data-node="1" data-label="Skilled Entrepreneurs" data-desc="Verified, NSQF-aligned business owners" style="top:12%; left:50%;">
+            <div class="eco-node-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M5 21v-1a7 7 0 0 1 14 0v1"/></svg></div>
+            <div class="eco-node-label">Skilled<br/>Entrepreneurs</div>
+          </div>
+          <div class="eco-node" data-node="2" data-label="Products" data-desc="Marketplace for handcrafted, agri &amp; manufactured goods" style="top:19.3%; left:72.3%;">
+            <div class="eco-node-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16.5 9.4 7.55 4.24M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="M3.27 6.96 12 12.01l8.73-5.05M12 22.08V12"/></svg></div>
+            <div class="eco-node-label">Products</div>
+          </div>
+          <div class="eco-node" data-node="3" data-label="Services" data-desc="Verified service providers across sectors" style="top:38.3%; left:86.1%;">
+            <div class="eco-node-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76Z"/></svg></div>
+            <div class="eco-node-label">Services</div>
+          </div>
+          <div class="eco-node" data-node="4" data-label="MSME Support" data-desc="Digital commerce access for India's MSMEs" style="top:61.7%; left:86.1%;">
+            <div class="eco-node-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V8l7-5 7 5v13M9 21V13h6v8"/></svg></div>
+            <div class="eco-node-label">MSME<br/>Support</div>
+          </div>
+          <div class="eco-node" data-node="5" data-label="Buyers" data-desc="Retail consumers, B2B buyers &amp; aggregators" style="top:80.7%; left:72.3%;">
+            <div class="eco-node-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg></div>
+            <div class="eco-node-label">Buyers</div>
+          </div>
+          <div class="eco-node" data-node="6" data-label="CSR Networks" data-desc="Corporate CSR &amp; foundation procurement partners" style="top:88%; left:50%;">
+            <div class="eco-node-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+            <div class="eco-node-label">CSR<br/>Networks</div>
+          </div>
+          <div class="eco-node" data-node="7" data-label="Government Schemes" data-desc="Direct linkage to Mudra, PMEGP, Vishwakarma &amp; 28+ schemes" style="top:80.7%; left:27.7%;">
+            <div class="eco-node-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V10l7-6 7 6v11M10 21v-6h4v6M9 10h.01M15 10h.01"/></svg></div>
+            <div class="eco-node-label">Government<br/>Schemes</div>
+          </div>
+          <div class="eco-node" data-node="8" data-label="Financial Inclusion" data-desc="Credit access, MSME loans &amp; payment workflows" style="top:61.7%; left:13.9%;">
+            <div class="eco-node-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+            <div class="eco-node-label">Financial<br/>Inclusion</div>
+          </div>
+          <div class="eco-node" data-node="9" data-label="HSN / GST Compliance" data-desc="Built-in tax, invoicing &amp; MSME compliance workflows" style="top:38.3%; left:13.9%;">
+            <div class="eco-node-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M9 13h6M9 17h4"/></svg></div>
+            <div class="eco-node-label">HSN / GST<br/>Compliance</div>
+          </div>
+          <div class="eco-node" data-node="10" data-label="Training Partners" data-desc="Kaushal Ganga LMS &amp; skill development network" style="top:19.3%; left:27.7%;">
+            <div class="eco-node-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></div>
+            <div class="eco-node-label">Training<br/>Partners</div>
+          </div>
+        </div>
+
+        <!-- Center hub -->
+        <div class="eco-center">
+          <img src="logo.png" alt="Kaushal Bazaar" />
+        </div>
+        <div class="eco-center-sub">Marketplace Ecosystem</div>
+
+        <!-- Tooltip -->
+        <div class="eco-tooltip" id="ecoTooltip">
+          <strong>Skilled Entrepreneurs</strong>
+          <span>Verified, NSQF-aligned business owners</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="about-content reveal">
+      <span class="eyebrow">What is Kaushal Bazaar</span>
+      <h2>An integrated <em>marketplace ecosystem</em> for skilled India.</h2>
+      <p>Kaushal Bazaar is more than a portal — it's the commerce layer of the Kaushal Ganga ecosystem. A unified platform where skilled entrepreneurs, MSMEs, training partners, and CSR networks meet buyers across B2B, B2C, and D2C channels.</p>
+      <p>From a weaver in Varanasi to a repair technician in Pune, Kaushal Bazaar gives every skilled enterprise a digital storefront, a verified identity, and access to India's growing opportunity economy.</p>
+
+      <div class="about-pillars">
+        <div class="about-pillar">
+          <div class="ap-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3"/><path d="M5 21v-1a7 7 0 0 1 14 0v1"/></svg></div>
+          <div class="ap-text"><strong>Skilled KYC</strong><span>Verified entrepreneur identity, NSQF-aligned.</span></div>
+        </div>
+        <div class="about-pillar">
+          <div class="ap-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9 12 2l9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/><path d="M9 22V12h6v10"/></svg></div>
+          <div class="ap-text"><strong>HSN &amp; GST Ready</strong><span>Built-in compliance, tax workflows, MSME records.</span></div>
+        </div>
+        <div class="about-pillar">
+          <div class="ap-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+          <div class="ap-text"><strong>Linked to Schemes</strong><span>Direct pipeline to government support programs.</span></div>
+        </div>
+        <div class="about-pillar">
+          <div class="ap-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 11h-6M19 8v6"/></svg></div>
+          <div class="ap-text"><strong>Buyer Network</strong><span>Reach industry, CSR, and bulk-aggregator demand.</span></div>
+        </div>
+      </div>
+
+      <a href="#" class="btn btn--outline">
+        Read full story
+        <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- =================================================================
+     4. BENEFITS
+     ================================================================= -->
+<section class="section benefits">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Features &amp; Benefits</span>
+      <h2>Built for the<br/>entrepreneur economy.</h2>
+      <p>From your first listing to your hundredth bulk order, every workflow on Kaushal Bazaar is designed to scale skilled enterprises sustainably.</p>
+    </div>
+
+    <div class="benefits-grid reveal-stagger">
+      <div class="benefit">
+        <div class="benefit-num">01</div>
+        <h3 class="benefit-title">MSME-First Workflow</h3>
+        <p class="benefit-desc">Onboarding flows tuned for Udyam registration, with built-in support for tiered pricing, invoicing, and credit cycles.</p>
+        <div class="benefit-tags">
+          <span class="benefit-tag">Udyam Ready</span>
+          <span class="benefit-tag">Bulk Pricing</span>
+        </div>
+      </div>
+
+      <div class="benefit">
+        <div class="benefit-num">02</div>
+        <h3 class="benefit-title">B2B + B2C + D2C</h3>
+        <p class="benefit-desc">One catalog reaches retail consumers, business aggregators, and direct buyers — each with their own dashboard and terms.</p>
+        <div class="benefit-tags">
+          <span class="benefit-tag">Multi-channel</span>
+          <span class="benefit-tag">RFQ Engine</span>
+        </div>
+      </div>
+
+      <div class="benefit">
+        <div class="benefit-num">03</div>
+        <h3 class="benefit-title">Digital Storefront</h3>
+        <p class="benefit-desc">Every seller gets a verified, branded micro-site. Add products, services, brochures, and certifications in minutes.</p>
+        <div class="benefit-tags">
+          <span class="benefit-tag">Custom URL</span>
+          <span class="benefit-tag">Mobile First</span>
+        </div>
+      </div>
+
+      <div class="benefit">
+        <div class="benefit-num">04</div>
+        <h3 class="benefit-title">Livelihood Generation</h3>
+        <p class="benefit-desc">Sellers gain employment leverage — every listing creates downstream skilled or unskilled work for the local economy.</p>
+        <div class="benefit-tags">
+          <span class="benefit-tag">Local Jobs</span>
+          <span class="benefit-tag">Skill Demand</span>
+        </div>
+      </div>
+
+      <div class="benefit">
+        <div class="benefit-num">05</div>
+        <h3 class="benefit-title">Government Linkage</h3>
+        <p class="benefit-desc">Sellers are matched to Mudra, PMEGP, Stand-Up India, and 28+ state schemes based on profile and trade.</p>
+        <div class="benefit-tags">
+          <span class="benefit-tag">28 Schemes</span>
+          <span class="benefit-tag">Auto-match</span>
+        </div>
+      </div>
+
+      <div class="benefit">
+        <div class="benefit-num">06</div>
+        <h3 class="benefit-title">Skill Ecosystem</h3>
+        <p class="benefit-desc">Connected to Kaushal Ganga's LMS — sellers can upskill, get NSQF certified, and hire from a trained talent pool.</p>
+        <div class="benefit-tags">
+          <span class="benefit-tag">NSQF Aligned</span>
+          <span class="benefit-tag">Talent Pool</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================================================================
+     5. SHOWCASE — PRODUCTS + SERVICES (Tabs)
+     ================================================================= -->
+<section class="section showcase" id="marketplace">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Marketplace Showcase</span>
+      <h2>What's trading on<br/>Kaushal Bazaar.</h2>
+      <p>A live cross-section of products and services from verified sellers across India. Filter by category to explore.</p>
+    </div>
+
+    <div class="showcase-tabs reveal">
+      <button class="showcase-tab active" data-tab="products">Products</button>
+      <button class="showcase-tab" data-tab="services">Services</button>
+      <button class="showcase-tab" data-tab="bulk">Bulk &amp; B2B</button>
+      <button class="showcase-tab" data-tab="featured">Featured</button>
+    </div>
+
+    <div class="showcase-panels reveal">
+      <div class="showcase-panel active" data-panel="products">
+        <div class="showcase-grid">
+          <div class="show-card">
+            <div class="show-card-media">
+              <div class="img img-1"><div class="img-pattern"></div></div>
+              <span class="show-card-badge">Handcrafted</span>
+            </div>
+            <div class="show-card-body">
+              <div class="show-card-cat">Retail · Textile</div>
+              <div class="show-card-title">Banarasi Silk Dupatta</div>
+              <div class="show-card-meta">
+                <span class="price">₹1,840</span>
+                <span class="by">Aarti Crafts</span>
+              </div>
+            </div>
+          </div>
+          <div class="show-card">
+            <div class="show-card-media">
+              <div class="img img-2"><div class="img-pattern"></div></div>
+              <span class="show-card-badge">FSSAI</span>
+            </div>
+            <div class="show-card-body">
+              <div class="show-card-cat">Food · Organic</div>
+              <div class="show-card-title">Wood-Pressed Mustard Oil · 1L</div>
+              <div class="show-card-meta">
+                <span class="price">₹420</span>
+                <span class="by">Khet Naturals</span>
+              </div>
+            </div>
+          </div>
+          <div class="show-card">
+            <div class="show-card-media">
+              <div class="img img-3"><div class="img-pattern"></div></div>
+              <span class="show-card-badge">Bulk Ready</span>
+            </div>
+            <div class="show-card-body">
+              <div class="show-card-cat">Handicraft</div>
+              <div class="show-card-title">Brass Diyas — Set of 12</div>
+              <div class="show-card-meta">
+                <span class="price">₹980</span>
+                <span class="by">Moradabad Co-op</span>
+              </div>
+            </div>
+          </div>
+          <div class="show-card">
+            <div class="show-card-media">
+              <div class="img img-4"><div class="img-pattern"></div></div>
+              <span class="show-card-badge">New</span>
+            </div>
+            <div class="show-card-body">
+              <div class="show-card-cat">Beauty · Ayurveda</div>
+              <div class="show-card-title">Herbal Face Pack — 100g</div>
+              <div class="show-card-meta">
+                <span class="price">₹340</span>
+                <span class="by">Vasundhara Wellness</span>
+              </div>
+            </div>
+          </div>
+          <div class="show-card">
+            <div class="show-card-media">
+              <div class="img img-5"><div class="img-pattern"></div></div>
+              <span class="show-card-badge">GI Tagged</span>
+            </div>
+            <div class="show-card-body">
+              <div class="show-card-cat">Agriculture</div>
+              <div class="show-card-title">Darjeeling Tea — 250g</div>
+              <div class="show-card-meta">
+                <span class="price">₹560</span>
+                <span class="by">Himalayan Garden</span>
+              </div>
+            </div>
+          </div>
+          <div class="show-card">
+            <div class="show-card-media">
+              <div class="img img-6"><div class="img-pattern"></div></div>
+              <span class="show-card-badge">Verified</span>
+            </div>
+            <div class="show-card-body">
+              <div class="show-card-cat">Food · Snacks</div>
+              <div class="show-card-title">Millet Chivda — 500g</div>
+              <div class="show-card-meta">
+                <span class="price">₹260</span>
+                <span class="by">Bharat Snack Co.</span>
+              </div>
+            </div>
+          </div>
+          <div class="show-card">
+            <div class="show-card-media">
+              <div class="img img-7"><div class="img-pattern"></div></div>
+              <span class="show-card-badge">Eco</span>
+            </div>
+            <div class="show-card-body">
+              <div class="show-card-cat">Retail · Decor</div>
+              <div class="show-card-title">Jute Tote Bag — Hand-Block</div>
+              <div class="show-card-meta">
+                <span class="price">₹490</span>
+                <span class="by">Earthen Threads</span>
+              </div>
+            </div>
+          </div>
+          <div class="show-card">
+            <div class="show-card-media">
+              <div class="img img-8"><div class="img-pattern"></div></div>
+              <span class="show-card-badge">Limited</span>
+            </div>
+            <div class="show-card-body">
+              <div class="show-card-cat">Construction</div>
+              <div class="show-card-title">Terracotta Roof Tiles · 100 pc</div>
+              <div class="show-card-meta">
+                <span class="price">₹3,200</span>
+                <span class="by">Kumhar Works</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="showcase-panel" data-panel="services">
+        <div class="showcase-grid">
+          <div class="show-card">
+            <div class="show-card-media">
+              <div class="img img-3"><div class="img-pattern"></div></div>
+              <span class="show-card-badge">NSQF L4</span>
+            </div>
+            <div class="show-card-body">
+              <div class="show-card-cat">Electronics</div>
+              <div class="show-card-title">AC &amp; Refrigerator Repair</div>
+              <div class="show-card-meta"><span class="price">From ₹250</span><span class="by">Rajesh K. · Bhopal</span></div>
+            </div>
+          </div>
+          <div class="show-card">
+            <div class="show-card-media">
+              <div class="img img-1"><div class="img-pattern"></div></div>
+              <span class="show-card-badge">On-Site</span>
+            </div>
+            <div class="show-card-body">
+              <div class="show-card-cat">Beauty</div>
+              <div class="show-card-title">Bridal Mehendi · Home Service</div>
+              <div class="show-card-meta"><span class="price">From ₹1,200</span><span class="by">Priya · Jaipur</span></div>
+            </div>
+          </div>
+          <div class="show-card">
+            <div class="show-card-media">
+              <div class="img img-2"><div class="img-pattern"></div></div>
+              <span class="show-card-badge">Verified</span>
+            </div>
+            <div class="show-card-body">
+              <div class="show-card-cat">Construction</div>
+              <div class="show-card-title">Tile &amp; Marble Fitting</div>
+              <div class="show-card-meta"><span class="price">From ₹85/sq.ft</span><span class="by">Suresh Crew · Pune</span></div>
+            </div>
+          </div>
+          <div class="show-card">
+            <div class="show-card-media">
+              <div class="img img-5"><div class="img-pattern"></div></div>
+              <span class="show-card-badge">Top Rated</span>
+            </div>
+            <div class="show-card-body">
+              <div class="show-card-cat">Logistics</div>
+              <div class="show-card-title">Last-Mile Delivery · Regional</div>
+              <div class="show-card-meta"><span class="price">From ₹40</span><span class="by">Tezz Logistics</span></div>
+            </div>
+          </div>
+          <div class="show-card">
+            <div class="show-card-media">
+              <div class="img img-6"><div class="img-pattern"></div></div>
+              <span class="show-card-badge">Certified</span>
+            </div>
+            <div class="show-card-body">
+              <div class="show-card-cat">Automotive</div>
+              <div class="show-card-title">Two-Wheeler Service</div>
+              <div class="show-card-meta"><span class="price">From ₹450</span><span class="by">Amit Garage · Indore</span></div>
+            </div>
+          </div>
+          <div class="show-card">
+            <div class="show-card-media">
+              <div class="img img-7"><div class="img-pattern"></div></div>
+              <span class="show-card-badge">FSSAI</span>
+            </div>
+            <div class="show-card-body">
+              <div class="show-card-cat">Food</div>
+              <div class="show-card-title">Tiffin Catering · 50+ Plates</div>
+              <div class="show-card-meta"><span class="price">From ₹80/plate</span><span class="by">Annapurna Kitchen</span></div>
+            </div>
+          </div>
+          <div class="show-card">
+            <div class="show-card-media">
+              <div class="img img-4"><div class="img-pattern"></div></div>
+              <span class="show-card-badge">Skilled</span>
+            </div>
+            <div class="show-card-body">
+              <div class="show-card-cat">Electronics</div>
+              <div class="show-card-title">Solar Panel Installation</div>
+              <div class="show-card-meta"><span class="price">From ₹4,800</span><span class="by">SolarSetu · Surat</span></div>
+            </div>
+          </div>
+          <div class="show-card">
+            <div class="show-card-media">
+              <div class="img img-8"><div class="img-pattern"></div></div>
+              <span class="show-card-badge">Govt-linked</span>
+            </div>
+            <div class="show-card-body">
+              <div class="show-card-cat">Agriculture</div>
+              <div class="show-card-title">Soil Testing &amp; Consultation</div>
+              <div class="show-card-meta"><span class="price">From ₹300</span><span class="by">Krishi Mitra</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="showcase-panel" data-panel="bulk">
+        <div class="showcase-grid">
+          <div class="show-card">
+            <div class="show-card-media">
+              <div class="img img-2"><div class="img-pattern"></div></div>
+              <span class="show-card-badge">RFQ Open</span>
+            </div>
+            <div class="show-card-body">
+              <div class="show-card-cat">Bulk · Textile</div>
+              <div class="show-card-title">Cotton T-Shirts · MOQ 500</div>
+              <div class="show-card-meta"><span class="price">₹140/unit</span><span class="by">Surat Textiles</span></div>
+            </div>
+          </div>
+          <div class="show-card">
+            <div class="show-card-media">
+              <div class="img img-1"><div class="img-pattern"></div></div>
+              <span class="show-card-badge">CSR Ready</span>
+            </div>
+            <div class="show-card-body">
+              <div class="show-card-cat">Bulk · Stationery</div>
+              <div class="show-card-title">School Kits · MOQ 1,000</div>
+              <div class="show-card-meta"><span class="price">₹220/kit</span><span class="by">PrintCraft India</span></div>
+            </div>
+          </div>
+          <div class="show-card">
+            <div class="show-card-media">
+              <div class="img img-3"><div class="img-pattern"></div></div>
+              <span class="show-card-badge">B2B</span>
+            </div>
+            <div class="show-card-body">
+              <div class="show-card-cat">Bulk · Packaging</div>
+              <div class="show-card-title">Kraft Boxes · MOQ 2,000</div>
+              <div class="show-card-meta"><span class="price">₹18/box</span><span class="by">Box Bazaar</span></div>
+            </div>
+          </div>
+          <div class="show-card">
+            <div class="show-card-media">
+              <div class="img img-4"><div class="img-pattern"></div></div>
+              <span class="show-card-badge">Govt</span>
+            </div>
+            <div class="show-card-body">
+              <div class="show-card-cat">Bulk · Agri</div>
+              <div class="show-card-title">Basmati Rice · 1 Tonne+</div>
+              <div class="show-card-meta"><span class="price">₹68/kg</span><span class="by">Kisan Co-op</span></div>
+            </div>
+          </div>
+          <div class="show-card">
+            <div class="show-card-media">
+              <div class="img img-5"><div class="img-pattern"></div></div>
+              <span class="show-card-badge">Custom</span>
+            </div>
+            <div class="show-card-body">
+              <div class="show-card-cat">Bulk · Decor</div>
+              <div class="show-card-title">Corporate Gifting Sets</div>
+              <div class="show-card-meta"><span class="price">From ₹450/set</span><span class="by">Gift Studio</span></div>
+            </div>
+          </div>
+          <div class="show-card">
+            <div class="show-card-media">
+              <div class="img img-6"><div class="img-pattern"></div></div>
+              <span class="show-card-badge">FMCG</span>
+            </div>
+            <div class="show-card-body">
+              <div class="show-card-cat">Bulk · Food</div>
+              <div class="show-card-title">Pickle Jars · MOQ 1,000</div>
+              <div class="show-card-meta"><span class="price">₹85/jar</span><span class="by">Achaar Co.</span></div>
+            </div>
+          </div>
+          <div class="show-card">
+            <div class="show-card-media">
+              <div class="img img-7"><div class="img-pattern"></div></div>
+              <span class="show-card-badge">Eco</span>
+            </div>
+            <div class="show-card-body">
+              <div class="show-card-cat">Bulk · Hospitality</div>
+              <div class="show-card-title">Bamboo Cutlery · 5,000 pc</div>
+              <div class="show-card-meta"><span class="price">₹4/piece</span><span class="by">GreenLeaf</span></div>
+            </div>
+          </div>
+          <div class="show-card">
+            <div class="show-card-media">
+              <div class="img img-8"><div class="img-pattern"></div></div>
+              <span class="show-card-badge">RFQ Open</span>
+            </div>
+            <div class="show-card-body">
+              <div class="show-card-cat">Bulk · Construction</div>
+              <div class="show-card-title">Cement Bags · 500+</div>
+              <div class="show-card-meta"><span class="price">₹380/bag</span><span class="by">BuildMart MSME</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="showcase-panel" data-panel="featured">
+        <div class="showcase-grid">
+          <div class="show-card">
+            <div class="show-card-media">
+              <div class="img img-1"><div class="img-pattern"></div></div>
+              <span class="show-card-badge">★ Spotlight</span>
+            </div>
+            <div class="show-card-body">
+              <div class="show-card-cat">Featured · Handloom</div>
+              <div class="show-card-title">Chanderi Saree Collection</div>
+              <div class="show-card-meta"><span class="price">From ₹2,400</span><span class="by">Madhya Pradesh Weavers</span></div>
+            </div>
+          </div>
+          <div class="show-card">
+            <div class="show-card-media">
+              <div class="img img-8"><div class="img-pattern"></div></div>
+              <span class="show-card-badge">★ Editor's Pick</span>
+            </div>
+            <div class="show-card-body">
+              <div class="show-card-cat">Featured · Crafts</div>
+              <div class="show-card-title">Madhubani Wall Art</div>
+              <div class="show-card-meta"><span class="price">From ₹1,800</span><span class="by">Bihar Folk Arts</span></div>
+            </div>
+          </div>
+          <div class="show-card">
+            <div class="show-card-media">
+              <div class="img img-4"><div class="img-pattern"></div></div>
+              <span class="show-card-badge">★ Hero</span>
+            </div>
+            <div class="show-card-body">
+              <div class="show-card-cat">Featured · Health</div>
+              <div class="show-card-title">Ayurvedic Wellness Kit</div>
+              <div class="show-card-meta"><span class="price">₹1,250</span><span class="by">Kerala Vaidyashala</span></div>
+            </div>
+          </div>
+          <div class="show-card">
+            <div class="show-card-media">
+              <div class="img img-2"><div class="img-pattern"></div></div>
+              <span class="show-card-badge">★ Best Seller</span>
+            </div>
+            <div class="show-card-body">
+              <div class="show-card-cat">Featured · Food</div>
+              <div class="show-card-title">Sweet Box · Festival Edition</div>
+              <div class="show-card-meta"><span class="price">₹680</span><span class="by">Mithai House</span></div>
+            </div>
+          </div>
+          <div class="show-card">
+            <div class="show-card-media">
+              <div class="img img-6"><div class="img-pattern"></div></div>
+              <span class="show-card-badge">★ New Brand</span>
+            </div>
+            <div class="show-card-body">
+              <div class="show-card-cat">Featured · Beauty</div>
+              <div class="show-card-title">Cold-Pressed Hair Oils</div>
+              <div class="show-card-meta"><span class="price">From ₹380</span><span class="by">Veda Botanics</span></div>
+            </div>
+          </div>
+          <div class="show-card">
+            <div class="show-card-media">
+              <div class="img img-5"><div class="img-pattern"></div></div>
+              <span class="show-card-badge">★ Heritage</span>
+            </div>
+            <div class="show-card-body">
+              <div class="show-card-cat">Featured · Retail</div>
+              <div class="show-card-title">Kashmiri Pashmina Stole</div>
+              <div class="show-card-meta"><span class="price">₹4,200</span><span class="by">Srinagar Looms</span></div>
+            </div>
+          </div>
+          <div class="show-card">
+            <div class="show-card-media">
+              <div class="img img-7"><div class="img-pattern"></div></div>
+              <span class="show-card-badge">★ Sustainable</span>
+            </div>
+            <div class="show-card-body">
+              <div class="show-card-cat">Featured · Eco</div>
+              <div class="show-card-title">Hemp Stationery Set</div>
+              <div class="show-card-meta"><span class="price">₹540</span><span class="by">GreenScript</span></div>
+            </div>
+          </div>
+          <div class="show-card">
+            <div class="show-card-media">
+              <div class="img img-3"><div class="img-pattern"></div></div>
+              <span class="show-card-badge">★ Limited</span>
+            </div>
+            <div class="show-card-body">
+              <div class="show-card-cat">Featured · Decor</div>
+              <div class="show-card-title">Channapatna Wooden Toys</div>
+              <div class="show-card-meta"><span class="price">From ₹290</span><span class="by">Karnataka Toysmiths</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================================================================
+     6. SUCCESS STORIES
+     ================================================================= -->
+<section class="section stories" id="services">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Success Stories</span>
+      <h2>Real entrepreneurs.<br/>Real growth.</h2>
+      <p>Sellers, training partners, and CSR collaborators share how Kaushal Bazaar reshaped their commerce.</p>
+    </div>
+
+    <div class="stories-track-wrap reveal">
+      <div class="stories-track" id="storiesTrack">
+        <div class="story">
+          <div class="story-quote">"</div>
+          <p class="story-text">Before joining, my brass diyas reached only the local mela. In nine months, I shipped to four states. The verified buyer network changed everything.</p>
+          <div class="story-author">
+            <div class="story-avatar" style="background:linear-gradient(135deg,#E87420,#E8A838)">RM</div>
+            <div class="story-info">
+              <strong>Ravi Moradabadi</strong>
+              <span>Brass Artisan · Moradabad</span>
+              <div class="meta">Retail · Handicrafts</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="story">
+          <div class="story-quote">"</div>
+          <p class="story-text">Our women's collective makes pickles for over 30 years. Kaushal Bazaar gave us FSSAI guidance, bulk RFQs, and a real digital storefront — finally.</p>
+          <div class="story-author">
+            <div class="story-avatar" style="background:linear-gradient(135deg,#5E3F75,#8F73A6)">SK</div>
+            <div class="story-info">
+              <strong>Sunita Kale</strong>
+              <span>Pickle Producer · Nashik</span>
+              <div class="meta">Food &amp; Processing</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="story">
+          <div class="story-quote">"</div>
+          <p class="story-text">As an aggregator placing CSR orders for school kits, I now source from 40+ verified MSMEs in one place. Compliance, invoicing, logistics — handled.</p>
+          <div class="story-author">
+            <div class="story-avatar" style="background:linear-gradient(135deg,#2BB3D4,#1A8AA8)">AP</div>
+            <div class="story-info">
+              <strong>Arjun Pillai</strong>
+              <span>CSR Lead · Tata Trusts</span>
+              <div class="meta">Buyer · Aggregator</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="story">
+          <div class="story-quote">"</div>
+          <p class="story-text">My AC repair business was hyper-local. The NSQF-aligned profile and Skilled KYC let me get listed on Kaushal Bazaar — now I get 3× more bookings.</p>
+          <div class="story-author">
+            <div class="story-avatar" style="background:linear-gradient(135deg,#7A1F2B,#C9B6D8)">RK</div>
+            <div class="story-info">
+              <strong>Rajesh Kumar</strong>
+              <span>Electronics Technician · Bhopal</span>
+              <div class="meta">Services · Electronics</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="story">
+          <div class="story-quote">"</div>
+          <p class="story-text">We trained 800 women in tailoring last year. Kaushal Bazaar absorbed nearly 300 of them as verified sellers. The pipeline from skill to commerce is real.</p>
+          <div class="story-author">
+            <div class="story-avatar" style="background:linear-gradient(135deg,#3B7A3F,#5E8F5E)">NS</div>
+            <div class="story-info">
+              <strong>Neelam Singh</strong>
+              <span>Director · Asha Skill Foundation</span>
+              <div class="meta">Training Partner</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="story">
+          <div class="story-quote">"</div>
+          <p class="story-text">The Mudra loan match-up was a game changer. I scaled my farm-to-table dairy from 50 to 400 liters daily, with formal credit and bulk D2C orders.</p>
+          <div class="story-author">
+            <div class="story-avatar" style="background:linear-gradient(135deg,#E8A838,#E87420)">VP</div>
+            <div class="story-info">
+              <strong>Vinay Patil</strong>
+              <span>Dairy Entrepreneur · Kolhapur</span>
+              <div class="meta">Agriculture</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stories-controls">
+      <button class="story-arrow" id="storyPrev" aria-label="Previous">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+      </button>
+      <div class="story-dots" id="storyDots"></div>
+      <button class="story-arrow" id="storyNext" aria-label="Next">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- =================================================================
+     7. IMPACT STATS
+     ================================================================= -->
+<section class="section impact">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Impact at Scale</span>
+      <h2>A national platform,<br/>built one livelihood at a time.</h2>
+      <p>Every number here is an entrepreneur, an order shipped, a skill verified, or a village brought into the digital commerce fold.</p>
+    </div>
+
+    <div class="stats-grid reveal-stagger">
+      <div class="stat">
+        <div class="stat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <div class="stat-num" data-target="12450"><span class="value">0</span><span class="suffix">+</span></div>
+        <div class="stat-label">Verified Entrepreneurs</div>
+        <div class="stat-sub">Onboarded with Skilled KYC</div>
+      </div>
+      <div class="stat">
+        <div class="stat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16.5 9.4 7.55 4.24M3.27 6.96 12 12.01l8.73-5.05M12 22.08V12"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/></svg></div>
+        <div class="stat-num" data-target="48000"><span class="value">0</span><span class="suffix">+</span></div>
+        <div class="stat-label">Products Listed</div>
+        <div class="stat-sub">Across 9 industry sectors</div>
+      </div>
+      <div class="stat">
+        <div class="stat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76Z"/></svg></div>
+        <div class="stat-num" data-target="6200"><span class="value">0</span><span class="suffix">+</span></div>
+        <div class="stat-label">Services Mapped</div>
+        <div class="stat-sub">NSQF-aligned providers</div>
+      </div>
+      <div class="stat">
+        <div class="stat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V8l7-5 7 5v13M9 21V13h6v8"/></svg></div>
+        <div class="stat-num" data-target="2840"><span class="value">0</span><span class="suffix">+</span></div>
+        <div class="stat-label">MSMEs Active</div>
+        <div class="stat-sub">Across 28 states &amp; UTs</div>
+      </div>
+      <div class="stat">
+        <div class="stat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+        <div class="stat-num" data-target="9"><span class="value">0</span></div>
+        <div class="stat-label">Major Sectors</div>
+        <div class="stat-sub">Plus 40+ sub-categories</div>
+      </div>
+      <div class="stat">
+        <div class="stat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 11V7a7 7 0 0 0-14 0v4M5 11h14v10H5z"/></svg></div>
+        <div class="stat-num" data-target="28"><span class="value">0</span></div>
+        <div class="stat-label">Government Schemes</div>
+        <div class="stat-sub">Auto-matched to sellers</div>
+      </div>
+      <div class="stat">
+        <div class="stat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+        <div class="stat-num" data-target="184"><span class="value">0</span><span class="suffix">Cr</span></div>
+        <div class="stat-label">GMV (FY 2025-26)</div>
+        <div class="stat-sub">Gross merchandise traded</div>
+      </div>
+      <div class="stat">
+        <div class="stat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg></div>
+        <div class="stat-num" data-target="97"><span class="value">0</span><span class="suffix">%</span></div>
+        <div class="stat-label">Seller Satisfaction</div>
+        <div class="stat-sub">Across verified ratings</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================================================================
+     8. PARTNERS MARQUEE
+     ================================================================= -->
+<section class="partners">
+  <div class="container">
+    <div class="partners-head reveal">
+      <h3>Trusted by India's skill, industry &amp; CSR ecosystem</h3>
+    </div>
+    <div class="marquee reveal">
+      <div class="marquee-track">
+        <div class="partner-logo"><div class="pl-mark">KG</div>Kaushal Ganga</div>
+        <div class="partner-logo"><div class="pl-mark">SF</div>CFRCSR Foundation</div>
+        <div class="partner-logo"><div class="pl-mark">NS</div>NSDC</div>
+        <div class="partner-logo"><div class="pl-mark">SS</div>Skill Sectors Council</div>
+        <div class="partner-logo"><div class="pl-mark">MS</div>MSME Ministry</div>
+        <div class="partner-logo"><div class="pl-mark">TT</div>Tata Trusts</div>
+        <div class="partner-logo"><div class="pl-mark">UN</div>UNDP India</div>
+        <div class="partner-logo"><div class="pl-mark">FA</div>FICCI Aaditi</div>
+        <div class="partner-logo"><div class="pl-mark">SI</div>SIDBI</div>
+        <div class="partner-logo"><div class="pl-mark">PM</div>PMEGP</div>
+        <div class="partner-logo"><div class="pl-mark">KA</div>Kaushal Aajivika</div>
+        <div class="partner-logo"><div class="pl-mark">SP</div>Softin Systems</div>
+        <!-- Duplicate set for seamless loop -->
+        <div class="partner-logo"><div class="pl-mark">KG</div>Kaushal Ganga</div>
+        <div class="partner-logo"><div class="pl-mark">SF</div>CFRCSR Foundation</div>
+        <div class="partner-logo"><div class="pl-mark">NS</div>NSDC</div>
+        <div class="partner-logo"><div class="pl-mark">SS</div>Skill Sectors Council</div>
+        <div class="partner-logo"><div class="pl-mark">MS</div>MSME Ministry</div>
+        <div class="partner-logo"><div class="pl-mark">TT</div>Tata Trusts</div>
+        <div class="partner-logo"><div class="pl-mark">UN</div>UNDP India</div>
+        <div class="partner-logo"><div class="pl-mark">FA</div>FICCI Aaditi</div>
+        <div class="partner-logo"><div class="pl-mark">SI</div>SIDBI</div>
+        <div class="partner-logo"><div class="pl-mark">PM</div>PMEGP</div>
+        <div class="partner-logo"><div class="pl-mark">KA</div>Kaushal Aajivika</div>
+        <div class="partner-logo"><div class="pl-mark">SP</div>Softin Systems</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================================================================
+     9. WHY CHOOSE KAUSHAL BAZAAR
+     ================================================================= -->
+<section class="section why">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Why Kaushal Bazaar</span>
+      <h2>The marketplace that<br/>moves with you.</h2>
+      <p>A side-by-side look at what makes Kaushal Bazaar a true ecosystem — not just another listings site.</p>
+    </div>
+
+    <div class="why-grid reveal-stagger">
+      <div class="why-card featured">
+        <span class="why-tag">Kaushal Bazaar</span>
+        <h3>Where commerce, skills &amp; <em>opportunity</em> converge.</h3>
+        <p>Built ground-up for India's skilled entrepreneur — not retrofitted from a generic marketplace template.</p>
+        <ul class="why-list">
+          <li><span class="why-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-11"/></svg></span> Verified Skilled KYC for every seller</li>
+          <li><span class="why-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-11"/></svg></span> One profile · three channels (B2B, B2C, D2C)</li>
+          <li><span class="why-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-11"/></svg></span> Direct linkage to 28+ government schemes</li>
+          <li><span class="why-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-11"/></svg></span> Integrated with Kaushal Ganga LMS</li>
+          <li><span class="why-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-11"/></svg></span> HSN, GST, Udyam workflows built-in</li>
+          <li><span class="why-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-11"/></svg></span> CSR-grade buyer network &amp; aggregators</li>
+        </ul>
+      </div>
+
+      <div class="why-card">
+        <span class="why-tag">Generic Marketplaces</span>
+        <h3>Listings without context, growth without ground.</h3>
+        <p>Most platforms treat sellers as one-size-fits-all merchants. Skilled entrepreneurs need more than a SKU page.</p>
+        <ul class="why-list">
+          <li><span class="why-check" style="background:#fce8e8;color:#c5404e;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6 18 18M18 6 6 18"/></svg></span> Sellers verified by document only — no skill context</li>
+          <li><span class="why-check" style="background:#fce8e8;color:#c5404e;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6 18 18M18 6 6 18"/></svg></span> Built primarily for B2C retail; B2B feels bolted on</li>
+          <li><span class="why-check" style="background:#fce8e8;color:#c5404e;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6 18 18M18 6 6 18"/></svg></span> No connection to government schemes or subsidies</li>
+          <li><span class="why-check" style="background:#fce8e8;color:#c5404e;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6 18 18M18 6 6 18"/></svg></span> Training &amp; commerce live on separate islands</li>
+          <li><span class="why-check" style="background:#fce8e8;color:#c5404e;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6 18 18M18 6 6 18"/></svg></span> GST &amp; MSME paperwork remains the seller's burden</li>
+          <li><span class="why-check" style="background:#fce8e8;color:#c5404e;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6 18 18M18 6 6 18"/></svg></span> No structured CSR / industry aggregator channels</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================================================================
+     10. BLOGS / INSIGHTS
+     ================================================================= -->
+<section class="section blogs" id="blogs">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Insights &amp; Stories</span>
+      <h2>From the bazaar floor.</h2>
+      <p>Industry briefings, skill economy updates, government scheme breakdowns, and entrepreneur features.</p>
+    </div>
+
+    <div class="blog-grid reveal-stagger">
+      <article class="blog featured">
+        <div class="blog-media">
+          <div class="img img-1"><div class="img-pattern"></div></div>
+          <span class="blog-cat">Government Schemes</span>
+        </div>
+        <div class="blog-body">
+          <div class="blog-date">May 12, 2026 · 8 min read</div>
+          <h3 class="blog-title">PM Vishwakarma Scheme 2.0: What changes for skilled artisans on digital marketplaces</h3>
+          <p class="blog-excerpt">A deep look at the updated Vishwakarma scheme, expanded toolkit grants, and how Kaushal Bazaar sellers can route applications directly through their dashboard — with documents pre-filled from Skilled KYC.</p>
+          <span class="blog-foot">Read article <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
+      </article>
+
+      <article class="blog">
+        <div class="blog-media">
+          <div class="img img-3"><div class="img-pattern"></div></div>
+          <span class="blog-cat">Skill Economy</span>
+        </div>
+        <div class="blog-body">
+          <div class="blog-date">May 8, 2026</div>
+          <h3 class="blog-title">Why NSQF-aligned profiles are the new resume for service entrepreneurs</h3>
+          <p class="blog-excerpt">Verified skill levels are reshaping how buyers find trusted service partners.</p>
+          <span class="blog-foot">Read article <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
+      </article>
+
+      <article class="blog">
+        <div class="blog-media">
+          <div class="img img-6"><div class="img-pattern"></div></div>
+          <span class="blog-cat">CSR &amp; Industry</span>
+        </div>
+        <div class="blog-body">
+          <div class="blog-date">May 5, 2026</div>
+          <h3 class="blog-title">How a Mumbai conglomerate sourced 12,000 CSR gift kits from 47 MSMEs</h3>
+          <p class="blog-excerpt">A case study in aggregated CSR procurement at scale.</p>
+          <span class="blog-foot">Read article <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
+      </article>
+
+      <article class="blog">
+        <div class="blog-media">
+          <div class="img img-4"><div class="img-pattern"></div></div>
+          <span class="blog-cat">Industry Update</span>
+        </div>
+        <div class="blog-body">
+          <div class="blog-date">Apr 28, 2026</div>
+          <h3 class="blog-title">Agro-processing sector grows 38% on Kaushal Bazaar in Q3</h3>
+          <p class="blog-excerpt">Millet and pickle MSMEs lead the surge with bulk D2C orders.</p>
+          <span class="blog-foot">Read article <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
+      </article>
+
+      <article class="blog">
+        <div class="blog-media">
+          <div class="img img-7"><div class="img-pattern"></div></div>
+          <span class="blog-cat">Entrepreneur Feature</span>
+        </div>
+        <div class="blog-body">
+          <div class="blog-date">Apr 22, 2026</div>
+          <h3 class="blog-title">From 5 to 50 employees: Inside Khet Naturals' growth journey</h3>
+          <p class="blog-excerpt">An organic foods MSME from Jhansi finds national distribution.</p>
+          <span class="blog-foot">Read article <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- =================================================================
+     11. CTA
+     ================================================================= -->
+<section class="cta-section">
+  <div class="container">
+    <div class="cta-wrap reveal">
+      <div class="cta-floating f1"></div>
+      <div class="cta-floating f2"></div>
+      <div class="cta-eyebrow">Join the ecosystem</div>
+      <h2>Join India's growing<br/><em>skill marketplace.</em></h2>
+      <p>Whether you're a skilled entrepreneur, training partner, MSME, or CSR buyer — Kaushal Bazaar is built for you. Set up your profile in under five minutes.</p>
+      <div class="cta-buttons">
+        <a href="#" class="btn btn--primary">
+          Register Now
+          <svg class="arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="#marketplace" class="btn btn--ghost">
+          Explore Marketplace
+        </a>
+      </div>
+      <div class="cta-trust">
+        <span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/></svg>
+          Verified Skilled KYC
+        </span>
+        <span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V8M3 8l9-5 9 5M3 8l9 5 9-5"/></svg>
+          28 States &amp; UTs
+        </span>
+        <span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+          Free to register
+        </span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================================================================
+     12. FOOTER
+     ================================================================= -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="#" class="nav-logo" aria-label="Kaushal Bazaar">
+          <img src="logo.png" alt="Kaushal Bazaar" />
+        </a>
+        <p>An integrated marketplace ecosystem for skilled entrepreneurs, MSMEs and the Kaushal Ganga network. Built for India's livelihood economy.</p>
+        <div class="footer-social">
+          <a href="#" aria-label="LinkedIn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 2h-17A1.5 1.5 0 0 0 2 3.5v17A1.5 1.5 0 0 0 3.5 22h17a1.5 1.5 0 0 0 1.5-1.5v-17A1.5 1.5 0 0 0 20.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 1 1 8.25 6.5 1.75 1.75 0 0 1 6.5 8.25zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93-.82 0-1.62.63-1.62 1.96V19h-3v-9h2.9v1.25a3.11 3.11 0 0 1 2.8-1.45c1.55 0 3.3.9 3.3 3.5z"/></svg>
+          </a>
+          <a href="#" aria-label="Twitter">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a>
+          <a href="#" aria-label="Instagram">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37zM17.5 6.5h.01"/></svg>
+          </a>
+          <a href="#" aria-label="YouTube">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M21.58 7.19a2.51 2.51 0 0 0-1.77-1.77C18.25 5 12 5 12 5s-6.25 0-7.81.42a2.51 2.51 0 0 0-1.77 1.77A26.07 26.07 0 0 0 2 12a26.07 26.07 0 0 0 .42 4.81 2.51 2.51 0 0 0 1.77 1.77C5.75 19 12 19 12 19s6.25 0 7.81-.42a2.51 2.51 0 0 0 1.77-1.77A26.07 26.07 0 0 0 22 12a26.07 26.07 0 0 0-.42-4.81zM10 15V9l5.2 3z"/></svg>
+          </a>
+          <a href="#" aria-label="Facebook">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>Platform</h4>
+        <ul>
+          <li><a href="#">Marketplace</a></li>
+          <li><a href="#">Sectors</a></li>
+          <li><a href="#">Services</a></li>
+          <li><a href="#">For Buyers</a></li>
+          <li><a href="#">For Sellers</a></li>
+          <li><a href="#">For CSR &amp; Industry</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Kaushal Ganga</a></li>
+          <li><a href="#">Insights / Blog</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Press &amp; Media</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="#">Help Center</a></li>
+          <li><a href="#">Need Help?</a></li>
+          <li><a href="#">Customer Care</a></li>
+          <li><a href="#">Refund Policy</a></li>
+          <li><a href="#">Cancellation Policy</a></li>
+          <li><a href="#">Terms &amp; Conditions</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Get in Touch</h4>
+        <div class="footer-contact-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="m22 6-10 7L2 6"/></svg>
+          <div>
+            <div class="lbl">Email</div>
+            <div class="val">support@kaushalbazaar.com</div>
+          </div>
+        </div>
+        <div class="footer-contact-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <div>
+            <div class="lbl">Phone</div>
+            <div class="val">+91 11 4000 4040</div>
+          </div>
+        </div>
+        <div class="footer-contact-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <div>
+            <div class="lbl">Headquarters</div>
+            <div class="val">New Delhi, India</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div>© 2026 Kaushal Mall Private Limited · All Rights Reserved.</div>
+      <div class="footer-bottom-links">
+        <a href="#">Privacy</a>
+        <a href="#">Hyperlink Policy</a>
+        <a href="#">Copyright</a>
+        <a href="#">Sitemap</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ====== Navbar scrolled state ====== */
+const nav = document.getElementById('nav');
+const onScroll = () => {
+  if(window.scrollY > 24) nav.classList.add('scrolled');
+  else nav.classList.remove('scrolled');
+};
+window.addEventListener('scroll', onScroll, { passive:true });
+onScroll();
+
+/* ====== Reveal on scroll (IntersectionObserver) ====== */
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if(e.isIntersecting){
+      e.target.classList.add('in');
+      io.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal, .reveal-stagger').forEach(el => io.observe(el));
+
+/* ====== Hero parallax on floating cards ====== */
+const heroVisual = document.querySelector('.hero-visual');
+if(heroVisual && window.matchMedia('(min-width: 1024px)').matches){
+  const floats = heroVisual.querySelectorAll('.float-card');
+  heroVisual.addEventListener('mousemove', (e) => {
+    const r = heroVisual.getBoundingClientRect();
+    const x = ((e.clientX - r.left) / r.width - 0.5);
+    const y = ((e.clientY - r.top) / r.height - 0.5);
+    floats.forEach((f, i) => {
+      const depth = (i + 1) * 8;
+      f.style.transform = `translate(${x * depth}px, ${y * depth}px)`;
+    });
+  });
+  heroVisual.addEventListener('mouseleave', () => {
+    floats.forEach(f => f.style.transform = '');
+  });
+}
+
+/* ====== Ecosystem wheel: segment hover → tooltip ====== */
+const tooltip = document.getElementById('hvTooltip');
+const wheelEl = document.querySelector('.hv-wheel');
+if(tooltip && wheelEl){
+  const segments = document.querySelectorAll('.hv-segment');
+  segments.forEach(seg => {
+    seg.addEventListener('mouseenter', (e) => {
+      const label = seg.dataset.label;
+      const desc = seg.dataset.desc;
+      tooltip.innerHTML = `<strong>${label}</strong><span>${desc}</span>`;
+      // Position tooltip near the segment relative to wheel
+      const wheelRect = wheelEl.getBoundingClientRect();
+      const segRect = seg.getBoundingClientRect();
+      const cx = segRect.left + segRect.width/2 - wheelRect.left;
+      const cy = segRect.top - wheelRect.top;
+      tooltip.style.left = cx + 'px';
+      tooltip.style.top = (cy - 12) + 'px';
+      tooltip.style.bottom = 'auto';
+      tooltip.style.transform = 'translate(-50%, -100%)';
+      tooltip.classList.add('visible');
+    });
+    seg.addEventListener('mouseleave', () => {
+      tooltip.classList.remove('visible');
+    });
+  });
+}
+
+/* ====== Showcase tabs ====== */
+const tabs = document.querySelectorAll('.showcase-tab');
+const panels = document.querySelectorAll('.showcase-panel');
+tabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    const target = tab.dataset.tab;
+    tabs.forEach(t => t.classList.toggle('active', t === tab));
+    panels.forEach(p => p.classList.toggle('active', p.dataset.panel === target));
+  });
+});
+
+/* ====== Stats counter ====== */
+const animateCount = (el, target, duration = 1800) => {
+  const start = performance.now();
+  const ease = t => 1 - Math.pow(1 - t, 3);
+  const isLarge = target > 1000;
+  const step = (now) => {
+    const t = Math.min(1, (now - start) / duration);
+    const v = Math.floor(ease(t) * target);
+    el.textContent = isLarge ? v.toLocaleString('en-IN') : v;
+    if(t < 1) requestAnimationFrame(step);
+    else el.textContent = isLarge ? target.toLocaleString('en-IN') : target;
+  };
+  requestAnimationFrame(step);
+};
+const statIO = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if(e.isIntersecting){
+      const target = parseInt(e.target.dataset.target, 10);
+      const valueEl = e.target.querySelector('.value');
+      if(valueEl) animateCount(valueEl, target);
+      statIO.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('.stat-num[data-target]').forEach(el => statIO.observe(el));
+
+/* ====== Stories carousel ====== */
+const track = document.getElementById('storiesTrack');
+const prev = document.getElementById('storyPrev');
+const next = document.getElementById('storyNext');
+const dotsHost = document.getElementById('storyDots');
+if(track && prev && next && dotsHost){
+  const stories = track.children.length;
+  let perView = 3;
+  const updatePerView = () => {
+    if(window.innerWidth <= 640) perView = 1;
+    else if(window.innerWidth <= 1024) perView = 2;
+    else perView = 3;
+  };
+  updatePerView();
+  let pages = Math.max(1, Math.ceil(stories / perView));
+  let idx = 0;
+
+  const buildDots = () => {
+    dotsHost.innerHTML = '';
+    pages = Math.max(1, Math.ceil(stories / perView));
+    for(let i = 0; i < pages; i++){
+      const d = document.createElement('span');
+      d.className = 'story-dot' + (i === 0 ? ' active' : '');
+      d.addEventListener('click', () => { idx = i; render(); });
+      dotsHost.appendChild(d);
+    }
+  };
+  const render = () => {
+    const cardWidth = track.children[0].getBoundingClientRect().width + 24;
+    track.style.transform = `translateX(-${idx * cardWidth * perView}px)`;
+    [...dotsHost.children].forEach((d, i) => d.classList.toggle('active', i === idx));
+    prev.disabled = idx === 0;
+    next.disabled = idx >= pages - 1;
+  };
+  prev.addEventListener('click', () => { if(idx > 0){ idx--; render(); } });
+  next.addEventListener('click', () => { if(idx < pages - 1){ idx++; render(); } });
+  window.addEventListener('resize', () => { updatePerView(); buildDots(); idx = 0; render(); });
+  buildDots();
+  render();
+  // Auto-advance
+  setInterval(() => { idx = (idx + 1) % pages; render(); }, 6500);
+}
+
+/* ====== Smooth scroll for nav links ====== */
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', (e) => {
+    const id = a.getAttribute('href');
+    if(id.length > 1){
+      const target = document.querySelector(id);
+      if(target){
+        e.preventDefault();
+        const offset = 80;
+        const top = target.getBoundingClientRect().top + window.scrollY - offset;
+        window.scrollTo({ top, behavior: 'smooth' });
+      }
+    }
+  });
+});
+</script>
+
+</body>
+</html>
