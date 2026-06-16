@@ -2464,7 +2464,7 @@ const NAV_LINKS = [
   { label: "Contact", id: "contact", href: "/#contact" },
 ] as const
 
-const RESUME_URL = "/resume/Harsh-Saran-CV-2026.pdf"
+const RESUME_URL = "/resume/harsh-saran-cv-2026.pdf"
 
 function IconDownload({ size = 14 }: { size?: number }) {
   return (
