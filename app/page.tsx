@@ -11,6 +11,7 @@ import {
   useScroll,
   type MotionValue,
 } from "framer-motion"
+import { createPortal } from "react-dom"
 import Image from "next/image"
 import Link from "next/link"
 
@@ -2020,6 +2021,10 @@ function ContactModal({ open, onClose }: { open: boolean; onClose: () => void })
   const [sending, setSending] = useState(false)
   const [toast, setToast] = useState<{ type: "success" | "error"; text: string } | null>(null)
   const formRef = useRef<HTMLFormElement>(null)
+  // Portal target only exists in the browser — gate rendering until mounted.
+  const [mounted, setMounted] = useState(false)
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- one-time SSR mount flag
+  useEffect(() => setMounted(true), [])
 
   // ESC to close + lock body scroll while open
   useEffect(() => {
@@ -2077,7 +2082,9 @@ function ContactModal({ open, onClose }: { open: boolean; onClose: () => void })
     }
   }
 
-  return (
+  if (!mounted) return null
+
+  return createPortal(
     <>
     <AnimatePresence>
       {open && (
@@ -2321,7 +2328,8 @@ function ContactModal({ open, onClose }: { open: boolean; onClose: () => void })
         </motion.div>
       )}
     </AnimatePresence>
-    </>
+    </>,
+    document.body,
   )
 }
 
@@ -2396,7 +2404,7 @@ function ServicesSection() {
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.8, ease: EASE_OUT }}
           style={{
-            scrollMarginTop: 100,
+            scrollMarginTop: 120,
             borderRadius: 26, border: "1px solid rgba(255,255,255,0.1)",
             background: "rgba(20,18,30,0.55)", backdropFilter: "blur(18px)", WebkitBackdropFilter: "blur(18px)",
             boxShadow: "0 30px 70px -30px rgba(0,0,0,0.85)",
