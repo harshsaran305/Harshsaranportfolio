@@ -12,8 +12,6 @@ import type { CSSProperties, ReactNode } from "react"
 import {
   motion,
   AnimatePresence,
-  useMotionValue,
-  useSpring,
   useTransform,
   useScroll,
 } from "framer-motion"
@@ -192,7 +190,7 @@ function WorkBackground() {
   return (
     <div aria-hidden="true" className="pointer-events-none fixed inset-0 overflow-hidden" style={{ zIndex: 0, background: "#050816" }}>
       <motion.div className="absolute rounded-full" style={{ width: "52vw", height: "52vw", top: "-12%", left: "-10%", background: "radial-gradient(circle, rgba(59,130,246,0.1) 0%, transparent 70%)", filter: "blur(110px)", willChange: "transform" }} animate={{ x: [0, 40, -20, 0], y: [0, 30, -25, 0] }} transition={{ duration: 26, repeat: Infinity, ease: "easeInOut" }} />
-      <motion.div className="absolute rounded-full" style={{ width: "46vw", height: "46vw", top: "26%", right: "-12%", background: "radial-gradient(circle, rgba(124,58,237,0.11) 0%, transparent 70%)", filter: "blur(120px)", willChange: "transform" }} animate={{ x: [0, -32, 20, 0], y: [0, -26, 30, 0] }} transition={{ duration: 30, repeat: Infinity, ease: "easeInOut", delay: 3 }} />
+      <motion.div className="absolute rounded-full" style={{ width: "46vw", height: "46vw", top: "26%", right: "-12%", background: "radial-gradient(circle, rgba(124,58,237,0.11) 0%, transparent 70%)", filter: "blur(90px)", willChange: "transform" }} animate={{ x: [0, -32, 20, 0], y: [0, -26, 30, 0] }} transition={{ duration: 30, repeat: Infinity, ease: "easeInOut", delay: 3 }} />
       <motion.div className="absolute rounded-full" style={{ width: "40vw", height: "40vw", bottom: "-10%", left: "20%", background: "radial-gradient(circle, rgba(139,92,246,0.09) 0%, transparent 70%)", filter: "blur(110px)", willChange: "transform" }} animate={{ x: [0, 26, -16, 0], y: [0, -20, 16, 0] }} transition={{ duration: 28, repeat: Infinity, ease: "easeInOut", delay: 1.5 }} />
       <motion.div className="absolute rounded-full" style={{ width: "34vw", height: "34vw", top: "58%", left: "-8%", background: "radial-gradient(circle, rgba(37,99,235,0.08) 0%, transparent 70%)", filter: "blur(100px)", willChange: "transform" }} animate={{ x: [0, 28, 0], y: [0, 20, 0] }} transition={{ duration: 24, repeat: Infinity, ease: "easeInOut", delay: 2 }} />
 
@@ -219,31 +217,43 @@ function WorkBackground() {
 
 // ─── Custom cursor ────────────────────────────────────────────────────────────
 
+// rAF-driven cursor (no spring lag): dot tracks 1:1, ring trails with a light lerp.
 function CustomCursor() {
-  const rawX = useMotionValue(-100)
-  const rawY = useMotionValue(-100)
-  const sx = useSpring(rawX, { stiffness: 1200, damping: 50, mass: 0.3 })
-  const sy = useSpring(rawY, { stiffness: 1200, damping: 50, mass: 0.3 })
-  const x = useTransform(sx, (v) => v - 10)
-  const y = useTransform(sy, (v) => v - 10)
+  const dotRef = useRef<HTMLDivElement>(null)
+  const ringRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches
     if (!fine) return
     document.documentElement.style.cursor = "none"
-    const onMove = (e: MouseEvent) => { rawX.set(e.clientX); rawY.set(e.clientY) }
-    window.addEventListener("mousemove", onMove)
+
+    let mx = -100, my = -100
+    let rx = -100, ry = -100
+    let raf = 0
+    const onMove = (e: MouseEvent) => { mx = e.clientX; my = e.clientY }
+    window.addEventListener("mousemove", onMove, { passive: true })
+
+    const render = () => {
+      if (dotRef.current) dotRef.current.style.transform = `translate3d(${mx}px, ${my}px, 0)`
+      rx += (mx - rx) * 0.25
+      ry += (my - ry) * 0.25
+      if (ringRef.current) ringRef.current.style.transform = `translate3d(${rx}px, ${ry}px, 0)`
+      raf = requestAnimationFrame(render)
+    }
+    raf = requestAnimationFrame(render)
+
     return () => {
+      cancelAnimationFrame(raf)
       window.removeEventListener("mousemove", onMove)
       document.documentElement.style.cursor = ""
     }
-  }, [rawX, rawY])
+  }, [])
 
   return (
-    <motion.div className="pointer-events-none fixed z-[200] hidden md:block" style={{ x, y, top: 0, left: 0 }}>
-      <div style={{ position: "absolute", width: 44, height: 44, borderRadius: "50%", top: -12, left: -12, background: "radial-gradient(circle, rgba(139,92,246,0.26) 0%, rgba(99,102,241,0.08) 55%, transparent 70%)", filter: "blur(8px)" }} />
-      <div style={{ width: 20, height: 20, borderRadius: "50%", background: "radial-gradient(circle, rgba(216,180,254,0.95) 0%, rgba(139,92,246,0.65) 60%, transparent 100%)", filter: "blur(1.5px)", boxShadow: "0 0 10px rgba(139,92,246,0.45)" }} />
-    </motion.div>
+    <div className="pointer-events-none fixed left-0 top-0 z-[200] hidden md:block" aria-hidden="true">
+      <div ref={ringRef} style={{ position: "absolute", top: -16, left: -16, width: 32, height: 32, borderRadius: "50%", border: "1.5px solid rgba(167,139,250,0.5)", willChange: "transform" }} />
+      <div ref={dotRef} style={{ position: "absolute", top: -4, left: -4, width: 8, height: 8, borderRadius: "50%", background: "rgba(216,180,254,0.95)", boxShadow: "0 0 8px rgba(139,92,246,0.6)", willChange: "transform" }} />
+    </div>
   )
 }
 

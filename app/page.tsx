@@ -44,45 +44,62 @@ const EASE_OUT = [0.22, 1, 0.36, 1] as const
 
 // ─── Custom cursor ────────────────────────────────────────────────────────────
 
+// Premium cursor driven by a single rAF loop writing translate3d() straight to
+// the DOM — no springs (springs are what cause the lag), no per-move React state,
+// no heavy blur. The dot tracks the pointer 1:1 (instant); the ring trails with a
+// light lerp for a premium feel. Runs only on fine-pointer (mouse) devices.
 function CustomCursor() {
-  const rawX = useMotionValue(-100)
-  const rawY = useMotionValue(-100)
-  // Snappy: tracks the pointer almost 1:1 with only a hint of smoothing.
-  // High stiffness + overdamped (no overshoot) → ~90% accurate, ~10% smoothing.
-  const spring = { stiffness: 1200, damping: 50, mass: 0.3 }
-  const sx = useSpring(rawX, spring)
-  const sy = useSpring(rawY, spring)
-  const x = useTransform(sx, (v) => v - 10)
-  const y = useTransform(sy, (v) => v - 10)
+  const dotRef = useRef<HTMLDivElement>(null)
+  const ringRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches
-    if (fine) document.documentElement.style.cursor = "none"
-    const onMove = (e: MouseEvent) => { rawX.set(e.clientX); rawY.set(e.clientY) }
-    window.addEventListener("mousemove", onMove)
+    if (!fine) return // touch devices: no custom cursor, keep native behaviour
+    document.documentElement.style.cursor = "none"
+
+    let mx = -100, my = -100          // latest pointer
+    let rx = -100, ry = -100          // ring position (trails)
+    let raf = 0
+    const onMove = (e: MouseEvent) => { mx = e.clientX; my = e.clientY }
+    window.addEventListener("mousemove", onMove, { passive: true })
+
+    const render = () => {
+      // Dot — instant, exactly on the pointer
+      if (dotRef.current) dotRef.current.style.transform = `translate3d(${mx}px, ${my}px, 0)`
+      // Ring — light lerp (~0.25) catches up in a few frames: smooth, not laggy
+      rx += (mx - rx) * 0.25
+      ry += (my - ry) * 0.25
+      if (ringRef.current) ringRef.current.style.transform = `translate3d(${rx}px, ${ry}px, 0)`
+      raf = requestAnimationFrame(render)
+    }
+    raf = requestAnimationFrame(render)
+
     return () => {
+      cancelAnimationFrame(raf)
       window.removeEventListener("mousemove", onMove)
       document.documentElement.style.cursor = ""
     }
-  }, [rawX, rawY])
+  }, [])
 
   return (
-    <motion.div
-      className="pointer-events-none fixed z-200 hidden md:block"
-      style={{ x, y, top: 0, left: 0 }}
-    >
-      <div style={{
-        position: "absolute", width: 44, height: 44, borderRadius: "50%",
-        top: -12, left: -12,
-        background: "radial-gradient(circle, rgba(139,92,246,0.26) 0%, rgba(99,102,241,0.08) 55%, transparent 70%)",
-        filter: "blur(8px)",
-      }} />
-      <div style={{
-        width: 20, height: 20, borderRadius: "50%",
-        background: "radial-gradient(circle, rgba(216,180,254,0.95) 0%, rgba(139,92,246,0.65) 60%, transparent 100%)",
-        filter: "blur(1.5px)", boxShadow: "0 0 10px rgba(139,92,246,0.45)",
-      }} />
-    </motion.div>
+    <div className="pointer-events-none fixed left-0 top-0 z-[200] hidden md:block" aria-hidden="true">
+      {/* Trailing ring (thin border — cheap, no blur) */}
+      <div
+        ref={ringRef}
+        style={{
+          position: "absolute", top: -16, left: -16, width: 32, height: 32, borderRadius: "50%",
+          border: "1.5px solid rgba(167,139,250,0.5)", willChange: "transform",
+        }}
+      />
+      {/* Instant dot (small box-shadow glow only) */}
+      <div
+        ref={dotRef}
+        style={{
+          position: "absolute", top: -4, left: -4, width: 8, height: 8, borderRadius: "50%",
+          background: "rgba(216,180,254,0.95)", boxShadow: "0 0 8px rgba(139,92,246,0.6)", willChange: "transform",
+        }}
+      />
+    </div>
   )
 }
 
@@ -168,7 +185,7 @@ const PARTICLES: Particle[] = [
 
 function Particles() {
   return (
-    <div aria-hidden="true" className="pointer-events-none absolute inset-0" style={{ zIndex: 4 }}>
+    <div aria-hidden="true" className="pointer-events-none absolute inset-0 hidden sm:block" style={{ zIndex: 4 }}>
       {PARTICLES.map((p, i) => (
         <motion.span
           key={i}
@@ -193,11 +210,11 @@ function GlobalBackground() {
     <div aria-hidden="true" className="pointer-events-none fixed inset-0 overflow-hidden" style={{ zIndex: 0, background: "#0B1020" }}>
       {/* Animated blurred gradient blobs — electric blue · indigo · purple · magenta.
           Very slow (32–40s) loops, subtle, alive — spans the whole page (all sections). */}
-      <motion.div className="absolute rounded-full" style={{ width: "56vw", height: "56vw", top: "-14%", left: "-12%", background: "radial-gradient(circle, rgba(79,124,255,0.16) 0%, transparent 70%)", filter: "blur(120px)", willChange: "transform" }} animate={{ x: [0, 60, -30, 0], y: [0, 40, -28, 0] }} transition={{ duration: 34, repeat: Infinity, ease: "easeInOut" }} />
-      <motion.div className="absolute rounded-full" style={{ width: "50vw", height: "50vw", top: "-6%", right: "-12%", background: "radial-gradient(circle, rgba(99,102,241,0.15) 0%, transparent 70%)", filter: "blur(120px)", willChange: "transform" }} animate={{ x: [0, -50, 28, 0], y: [0, 34, -26, 0] }} transition={{ duration: 38, repeat: Infinity, ease: "easeInOut", delay: 3 }} />
-      <motion.div className="absolute rounded-full" style={{ width: "48vw", height: "48vw", bottom: "-16%", left: "14%", background: "radial-gradient(circle, rgba(139,92,246,0.14) 0%, transparent 70%)", filter: "blur(120px)", willChange: "transform" }} animate={{ x: [0, 42, -24, 0], y: [0, -30, 22, 0] }} transition={{ duration: 36, repeat: Infinity, ease: "easeInOut", delay: 2 }} />
-      <motion.div className="absolute rounded-full" style={{ width: "44vw", height: "44vw", top: "44%", right: "-10%", background: "radial-gradient(circle, rgba(217,70,239,0.12) 0%, transparent 70%)", filter: "blur(120px)", willChange: "transform" }} animate={{ x: [0, -36, 22, 0], y: [0, 28, -20, 0] }} transition={{ duration: 40, repeat: Infinity, ease: "easeInOut", delay: 5 }} />
-      <motion.div className="absolute rounded-full" style={{ width: "40vw", height: "40vw", bottom: "-6%", right: "26%", background: "radial-gradient(circle, rgba(79,124,255,0.10) 0%, transparent 70%)", filter: "blur(120px)", willChange: "transform" }} animate={{ x: [0, 30, -18, 0], y: [0, -22, 16, 0] }} transition={{ duration: 32, repeat: Infinity, ease: "easeInOut", delay: 1 }} />
+      <motion.div className="absolute rounded-full" style={{ width: "56vw", height: "56vw", top: "-14%", left: "-12%", background: "radial-gradient(circle, rgba(79,124,255,0.16) 0%, transparent 70%)", filter: "blur(90px)", willChange: "transform" }} animate={{ x: [0, 60, -30, 0], y: [0, 40, -28, 0] }} transition={{ duration: 34, repeat: Infinity, ease: "easeInOut" }} />
+      <motion.div className="absolute rounded-full" style={{ width: "50vw", height: "50vw", top: "-6%", right: "-12%", background: "radial-gradient(circle, rgba(99,102,241,0.15) 0%, transparent 70%)", filter: "blur(90px)", willChange: "transform" }} animate={{ x: [0, -50, 28, 0], y: [0, 34, -26, 0] }} transition={{ duration: 38, repeat: Infinity, ease: "easeInOut", delay: 3 }} />
+      <motion.div className="absolute rounded-full" style={{ width: "48vw", height: "48vw", bottom: "-16%", left: "14%", background: "radial-gradient(circle, rgba(139,92,246,0.14) 0%, transparent 70%)", filter: "blur(90px)", willChange: "transform" }} animate={{ x: [0, 42, -24, 0], y: [0, -30, 22, 0] }} transition={{ duration: 36, repeat: Infinity, ease: "easeInOut", delay: 2 }} />
+      <motion.div className="absolute rounded-full" style={{ width: "44vw", height: "44vw", top: "44%", right: "-10%", background: "radial-gradient(circle, rgba(217,70,239,0.12) 0%, transparent 70%)", filter: "blur(90px)", willChange: "transform" }} animate={{ x: [0, -36, 22, 0], y: [0, 28, -20, 0] }} transition={{ duration: 40, repeat: Infinity, ease: "easeInOut", delay: 5 }} />
+      <motion.div className="absolute rounded-full" style={{ width: "40vw", height: "40vw", bottom: "-6%", right: "26%", background: "radial-gradient(circle, rgba(79,124,255,0.10) 0%, transparent 70%)", filter: "blur(90px)", willChange: "transform" }} animate={{ x: [0, 30, -18, 0], y: [0, -22, 16, 0] }} transition={{ duration: 32, repeat: Infinity, ease: "easeInOut", delay: 1 }} />
 
       {/* Subtle futuristic grid — very low visibility, faded toward edges */}
       <div className="absolute inset-0" style={{
@@ -866,6 +883,10 @@ function HangingProject({ w, index, onOpen }: { w: Work; index: number; onOpen: 
           onClick={onOpen}
           onHoverStart={() => setHover(true)}
           onHoverEnd={() => setHover(false)}
+          // Touch devices have no hover — drive the same lift/glow/reflection on tap
+          onTapStart={() => setHover(true)}
+          onTapCancel={() => setHover(false)}
+          whileTap={{ scale: 0.96 }}
           className="relative w-full overflow-hidden text-left"
           animate={{
             // premium neutral drop shadow only — no coloured glow spilling outside
@@ -1051,8 +1072,8 @@ function SelectedWork() {
 
       {/* Soft installation lighting */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0" style={{ zIndex: 0 }}>
-        <div style={{ position: "absolute", top: "8%", left: "10%", width: "42vw", height: "42vw", background: "radial-gradient(circle, rgba(124,58,237,0.12), transparent 70%)", filter: "blur(120px)" }} />
-        <div style={{ position: "absolute", bottom: "4%", right: "8%", width: "38vw", height: "38vw", background: "radial-gradient(circle, rgba(59,130,246,0.10), transparent 70%)", filter: "blur(120px)" }} />
+        <div style={{ position: "absolute", top: "8%", left: "10%", width: "42vw", height: "42vw", background: "radial-gradient(circle, rgba(124,58,237,0.12), transparent 70%)", filter: "blur(90px)" }} />
+        <div style={{ position: "absolute", bottom: "4%", right: "8%", width: "38vw", height: "38vw", background: "radial-gradient(circle, rgba(59,130,246,0.10), transparent 70%)", filter: "blur(90px)" }} />
       </div>
 
       <div className="relative mx-auto w-full" style={{ zIndex: 10, maxWidth: 1180 }}>
